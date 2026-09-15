@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
-import { useMembers } from '../hooks/useData';
+import { useMembers, useMLData } from '../hooks/useData';
 import { FileWarning, CheckCircle2, AlertCircle } from 'lucide-react';
 import type { MemberOfParliament } from '../types';
 
 export function Compliance() {
-  const { members, loading } = useMembers();
+  const { members, loading: membersLoading } = useMembers();
+  const { mlRisk, loading: mlLoading } = useMLData();
   const [filter, setFilter] = useState('ALL');
 
   const complianceStats = useMemo(() => {
-    if (!members) return null;
+    if (!members || !mlRisk) return null;
     
     let compliant = 0;
     let exceptions = 0;
@@ -20,6 +21,14 @@ export function Compliance() {
       if (!m.state) missingFields.push('Missing State');
       if (!m.constituency && m.house === 'Lok Sabha') missingFields.push('Missing Constituency (Lok Sabha)');
       
+      // Integrate ML risk as compliance exceptions
+      const risk = mlRisk.find((r: any) => r.member_id === m.id);
+      if (risk) {
+        if (risk.is_anomaly) missingFields.push('ML Flag: Statistical Cost Anomaly Detected');
+        if (risk.is_duplicate) missingFields.push('ML Flag: High Similarity (Potential Duplicate Allocation)');
+        if (risk.risk_level === 'CRITICAL') missingFields.push('ML Flag: Critical Execution Risk Profile');
+      }
+
       if (missingFields.length > 0) {
         exceptions++;
         exceptionRecords.push({
@@ -37,9 +46,9 @@ export function Compliance() {
       total: members.length,
       exceptionRecords
     };
-  }, [members]);
+  }, [members, mlRisk]);
 
-  if (loading) return <div className="p-8 text-slate-500">Loading compliance data...</div>;
+  if (membersLoading || mlLoading) return <div className="p-8 text-slate-500">Loading compliance data...</div>;
   if (!complianceStats) return null;
 
   const filteredRecords = complianceStats.exceptionRecords.filter(r => {

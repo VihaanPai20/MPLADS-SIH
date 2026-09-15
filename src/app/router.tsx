@@ -12,6 +12,7 @@ import { ProjectExecution } from '../pages/ProjectExecution';
 import { Districts } from '../pages/Districts';
 import { Agencies } from '../pages/Agencies';
 import { Geographic } from '../pages/Geographic';
+import { AnalyticsHub } from '../pages/AnalyticsHub';
 import { Assistant } from '../pages/Assistant';
 import { Reports } from '../pages/Reports';
 import { Audit } from '../pages/Audit';
@@ -31,6 +32,7 @@ export function AppRouter() {
             <Route path="risk-analysis" element={<RiskAnalysis />} />
             <Route path="alerts" element={<Alerts />} />
             <Route path="compliance" element={<Compliance />} />
+            <Route path="analytics" element={<AnalyticsHub />} />
             <Route path="financial" element={<FinancialAnalytics />} />
             <Route path="project-execution" element={<ProjectExecution />} />
             <Route path="districts" element={<Districts />} />

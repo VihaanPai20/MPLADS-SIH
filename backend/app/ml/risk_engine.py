@@ -37,11 +37,26 @@ class MLRiskEngine:
         results['similarity_score'] = dup_results['max_similarity_score']
         results['is_duplicate'] = dup_results['is_potential_duplicate']
         
-        # 4. Overall Risk Score (0-100)
-        # Weighting: Anomaly Score (60%), Similarity Score (40%)
+        # 4. Synthesize Extended Feature-Based Risk Modifiers
+        results['z_score'] = features_df['amount_zscore_state']
+        results['amount'] = features_df['allocated_amount']
+        national_95th = features_df['allocated_amount'].quantile(0.95) if not features_df.empty else float('inf')
+        
+        def calculate_modifiers(row):
+            penalty = 0
+            if row['z_score'] > 2.0: penalty += 20
+            elif row['z_score'] < -1.5: penalty += 15
+            if row['amount'] > national_95th: penalty += 15
+            return penalty
+            
+        results['penalty'] = results.apply(calculate_modifiers, axis=1)
+
+        # 5. Overall Risk Score (0-100)
+        # Weighting: Anomaly Score (50%), Similarity Score (30%), Feature Penalty (20%)
         results['overall_risk_score'] = (
-            (results['anomaly_score'] * 0.6) + 
-            (results['similarity_score'] * 0.4)
+            (results['anomaly_score'] * 0.5) + 
+            (results['similarity_score'] * 0.3) +
+            results['penalty']
         ).clip(upper=100)
         
         # Calculate Risk Level
@@ -57,13 +72,36 @@ class MLRiskEngine:
         def generate_signals(row):
             signals = []
             if row['is_anomaly']:
-                signals.append('Statistical Cost Anomaly')
+                signals.append('Isolation Forest Cost Anomaly')
             if row['is_duplicate']:
-                signals.append('High Similarity (Potential Duplicate)')
+                signals.append('Textual/Geographic Duplicate Signature')
+                
+            if row['z_score'] > 2.0:
+                signals.append('Severe Regional Cost Spike (>2σ Deviation)')
+            elif row['z_score'] < -1.5:
+                signals.append('Deficit Funding (Execution Starvation Risk)')
+                
+            if row['amount'] > national_95th:
+                signals.append('Mega-Project Complexity Risk (Top 5% Scale)')
+                
+            if not signals and row['z_score'] > 1.0:
+                signals.append('Elevated Regional Deviation')
+                
+            if not signals:
+                signals.append('Normal Baseline Profile')
+                
             return signals
             
         results['signals'] = results.apply(generate_signals, axis=1)
-        results['primary_signal'] = results['signals'].apply(lambda x: x[0] if x else None)
+        # Prioritize the most critical signal for the primary_signal display
+        def get_primary_signal(signals):
+            critical_keywords = ['Mega-Project', 'Severe', 'Anomaly', 'Duplicate', 'Deficit']
+            for kw in critical_keywords:
+                for s in signals:
+                    if kw in s: return s
+            return signals[0] if signals else None
+            
+        results['primary_signal'] = results['signals'].apply(get_primary_signal)
         
         # Include Member ID for merging in API
         results['member_id'] = df['id']

@@ -23,11 +23,9 @@ export function RiskAnalysis() {
       if (r.risk_level === 'MODERATE') moderate++;
       if (r.risk_level === 'LOW') low++;
 
-      if (r.is_anomaly) {
-        anomalyTypes['Cost Anomaly'] = (anomalyTypes['Cost Anomaly'] || 0) + 1;
-      }
-      if (r.is_duplicate) {
-        anomalyTypes['Potential Duplicate'] = (anomalyTypes['Potential Duplicate'] || 0) + 1;
+      if (r.primary_signal && r.primary_signal !== 'Normal Baseline Profile') {
+        const signalName = r.primary_signal.split(' (')[0]; // Simplify name for chart
+        anomalyTypes[signalName] = (anomalyTypes[signalName] || 0) + 1;
       }
     });
 
@@ -140,10 +138,18 @@ export function RiskAnalysis() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm lg:col-span-1">
             <h3 className="text-sm font-bold text-slate-900 uppercase mb-4">Risk Distribution</h3>
-            <div className="h-64">
+            <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={stats.distribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={60} outerRadius={80}>
+                  <Pie 
+                    data={stats.distribution} 
+                    dataKey="value" 
+                    nameKey="name" 
+                    cx="50%" 
+                    cy="50%" 
+                    innerRadius="60%" 
+                    outerRadius="80%"
+                  >
                     {stats.distribution.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
@@ -156,13 +162,26 @@ export function RiskAnalysis() {
           <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm lg:col-span-2">
             <h3 className="text-sm font-bold text-slate-900 uppercase mb-4">Predicted Anomaly Types</h3>
             {stats.anomalyData.length > 0 ? (
-               <div className="h-64">
+               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={stats.anomalyData} layout="vertical" margin={{ top: 0, right: 30, left: 40, bottom: 0 }}>
-                    <XAxis type="number" />
-                    <YAxis dataKey="name" type="category" width={150} tick={{ fontSize: 12 }} />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+                  <BarChart data={stats.anomalyData} layout="vertical" margin={{ top: 10, right: 30, left: 20, bottom: 0 }}>
+                    <XAxis type="number" hide />
+                    <YAxis 
+                      dataKey="name" 
+                      type="category" 
+                      width={130} 
+                      tick={{ fontSize: 12, fill: '#475569' }} 
+                      axisLine={false} 
+                      tickLine={false} 
+                    />
+                    <Tooltip cursor={{ fill: '#f8fafc' }} />
+                    <Bar 
+                      dataKey="count" 
+                      fill="#3b82f6" 
+                      radius={[0, 4, 4, 0]} 
+                      barSize={40}
+                      label={{ position: 'right', fill: '#334155', fontSize: 12, fontWeight: 'bold' }}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -265,33 +284,45 @@ export function RiskAnalysis() {
               <h4 className="text-sm font-bold text-slate-900 uppercase mb-3 border-b border-slate-100 pb-2">Why was this flagged?</h4>
               
               <div className="space-y-4 mb-6">
-                {selectedRisk.risk.signals.map((signal: string, i: number) => (
-                  <div key={i} className="bg-slate-50 rounded-md p-3 border border-slate-200">
-                    <div className="flex items-center text-slate-900 font-semibold mb-1">
-                      <AlertOctagon className="w-4 h-4 mr-2 text-red-500" />
-                      {signal}
+                {selectedRisk.risk.signals.map((signal: string, i: number) => {
+                  let explanation = "";
+                  if (signal.includes('Isolation Forest')) {
+                    explanation = `Algorithm identified the ₹${(selectedRisk.member.allocatedAmount/10000000).toFixed(2)} Cr sanction as highly unusual via unsupervised isolation.`;
+                  } else if (signal.includes('Duplicate')) {
+                    explanation = `Detected via TF-IDF Similarity (${(selectedRisk.risk.similarity_score || 0).toFixed(1)}%). Portfolio matches structural descriptors of another entity.`;
+                  } else if (signal.includes('Regional Cost Spike')) {
+                    explanation = `Execution Scale Anomaly. Funding deviates more than 2 standard deviations above the ${selectedRisk.member.state} mean.`;
+                  } else if (signal.includes('Deficit Funding')) {
+                    explanation = `Execution Starvation Risk. Funding is >1.5 standard deviations below state average, indicating high risk of stall/abandonment.`;
+                  } else if (signal.includes('Mega-Project')) {
+                    explanation = `Complexity Risk. Allocation of ₹${(selectedRisk.member.allocatedAmount/10000000).toFixed(2)} Cr is in the top 5% nationally, increasing multi-stage failure probabilities.`;
+                  } else if (signal.includes('Elevated')) {
+                    explanation = `Minor deviation detected compared to localized peer allocations.`;
+                  } else {
+                     explanation = `Standard statistical profile with no critical deviations.`;
+                  }
+                  
+                  return (
+                    <div key={i} className="bg-slate-50 rounded-md p-3 border border-slate-200">
+                      <div className="flex items-center text-slate-900 font-semibold mb-1">
+                        <AlertOctagon className="w-4 h-4 mr-2 text-red-500" />
+                        {signal}
+                      </div>
+                      <p className="text-sm text-slate-600 mb-2">{explanation}</p>
                     </div>
-                    {signal === 'Statistical Cost Anomaly' && (
-                       <p className="text-sm text-slate-600 mb-2">Detected by Isolation Forest model. The sanctioned amount of ₹{(selectedRisk.member.allocatedAmount/10000000).toFixed(2)} Cr statistically deviates from the expected state distribution.</p>
-                    )}
-                    {signal === 'High Similarity (Potential Duplicate)' && (
-                       <p className="text-sm text-slate-600 mb-2">Detected by TF-IDF + Cosine Similarity. The portfolio closely matches another record (Similarity: {selectedRisk.risk.similarity_score.toFixed(1)}%).</p>
-                    )}
-                  </div>
-                ))}
-                
-                {selectedRisk.risk.signals.length === 0 && (
-                  <p className="text-sm text-slate-500">Elevated baseline risk based on state/house factors without a specific critical ML anomaly.</p>
-                )}
+                  );
+                })}
               </div>
 
               <h4 className="text-sm font-bold text-slate-900 uppercase mb-3 border-b border-slate-100 pb-2">Recommended Action</h4>
               <div className="flex items-start text-sm text-slate-700 bg-blue-50 p-3 rounded-md border border-blue-100">
                 <Info className="w-5 h-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
                 <p>
-                  {selectedRisk.risk.is_anomaly ? "Review expenditure and sanction records for statistical deviations." : 
-                   selectedRisk.risk.is_duplicate ? "Verify project location, scope and sanction records for duplication." :
-                   "Monitor portfolio execution and compliance."}
+                  {selectedRisk.risk.risk_level === 'CRITICAL' 
+                    ? "Immediate multi-level audit required. Freeze unreleased tranches pending physical verification of mega-scale or anomalous assets."
+                    : selectedRisk.risk.risk_level === 'HIGH'
+                    ? "Flag for priority desk-review. Cross-reference stated outcomes against localized expenditure bounds before further clearance."
+                    : "Maintain routine quarterly physical execution monitoring."}
                 </p>
               </div>
             </div>
