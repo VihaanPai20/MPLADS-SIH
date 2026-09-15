@@ -1,61 +1,48 @@
-import { useMembers } from '../hooks/useData';
-import { EmptyState } from '../components/EmptyState';
-import { Users, Briefcase, AlertTriangle } from 'lucide-react';
+import { Database, AlertCircle, Building2 } from 'lucide-react';
 
 export function Agencies() {
-  const { loading } = useMembers();
-
-  if (loading) return <div className="p-8 text-slate-500">Loading agency intelligence...</div>;
-
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">Implementing Agency Intelligence</h1>
-        <p className="text-slate-500 mt-1 text-sm">
-          Monitor project execution and performance across implementing agencies.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-sm font-bold text-slate-500 uppercase">Agencies</div>
-          <div className="text-2xl font-bold mt-1 text-slate-400">N/A</div>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Implementing Entity Intelligence</h1>
+          <p className="text-slate-500 mt-1 text-sm max-w-2xl">
+            Monitor project execution, financial performance, and predictive risk across implementing entities and authorities.
+          </p>
         </div>
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-sm font-bold text-slate-500 uppercase">Total Allocation</div>
-          <div className="text-2xl font-bold mt-1 text-slate-400">N/A</div>
-        </div>
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-sm font-bold text-slate-500 uppercase">Avg Delay Rate</div>
-          <div className="text-2xl font-bold mt-1 text-slate-400">N/A</div>
-        </div>
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-sm font-bold text-slate-500 uppercase">Risk Signals</div>
-          <div className="text-2xl font-bold mt-1 text-slate-400">N/A</div>
-        </div>
-      </div>
-
-      <div className="mt-8">
-        <EmptyState
-          title="Implementing Agency Data Unavailable"
-          description="The source dataset does not contain mapping to Implementing Agencies (IA). Agency-level intelligence, expenditure tracking, and delay profiling require the Agency Implementation sub-dataset."
-          icon={Users}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm min-h-[300px] flex items-center justify-center">
-          <div className="text-center text-slate-400">
-            <Briefcase className="w-12 h-12 mx-auto mb-3 opacity-20" />
-            <p className="font-semibold text-slate-500">Agency Project Portfolio</p>
-            <p className="text-sm mt-1">Requires Agency-to-Project mapping.</p>
+        
+        {/* DATA COVERAGE CARD */}
+        <div className="bg-slate-900 text-slate-300 rounded-lg p-3 text-xs shadow-md border border-slate-700 w-full md:w-64">
+          <div className="flex items-center justify-between border-b border-slate-700 pb-2 mb-2">
+            <span className="font-bold tracking-wider text-slate-400">DATA COVERAGE</span>
+            <Database className="w-3 h-3 text-red-400" />
+          </div>
+          <div className="flex justify-between">
+            <span>Implementing Agency</span>
+            <span className="text-red-400 font-bold">0%</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Implementing Authority</span>
+            <span className="text-red-400 font-bold">0%</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Department</span>
+            <span className="text-red-400 font-bold">0%</span>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm min-h-[300px] flex items-center justify-center">
-          <div className="text-center text-slate-400">
-            <AlertTriangle className="w-12 h-12 mx-auto mb-3 opacity-20" />
-            <p className="font-semibold text-slate-500">Unusual Patterns & Risk Signals</p>
-            <p className="text-sm mt-1">Anomaly detection requires agency execution histories.</p>
+      </div>
+
+      <div className="bg-slate-50 border border-slate-200 border-dashed rounded-lg shadow-sm flex flex-col items-center justify-center p-12 text-center mt-8">
+        <Building2 className="w-16 h-16 text-slate-300 mb-4" />
+        <h3 className="text-xl font-bold text-slate-700 mb-3">Insufficient Source Data</h3>
+        <p className="text-sm text-slate-500 max-w-2xl mb-6">
+          The underlying normalized dataset (Lok Sabha / Rajya Sabha allocations) <strong>genuinely does not contain any fields</strong> tracking the Implementing Agency, Executing Authority, or Department assigned to execute the portfolios.
+        </p>
+        <div className="bg-amber-50 border border-amber-200 p-4 rounded text-amber-800 text-sm max-w-3xl flex items-start text-left">
+          <AlertCircle className="w-5 h-5 mr-3 shrink-0 mt-0.5" />
+          <div>
+            <strong className="block mb-1">Architectural Integrity Guard:</strong>
+            In accordance with strict system rules, we do not fabricate fake entity names, mock agency metrics, or disconnected frontend ML predictions to make this UI appear full. Entity-level machine learning and predictive intelligence (Execution Risk, Delay Probability) are suspended until an authoritative Agency mapping sub-dataset is provided.
           </div>
         </div>
       </div>
