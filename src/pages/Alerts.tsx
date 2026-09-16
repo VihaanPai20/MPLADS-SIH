@@ -5,6 +5,7 @@ import { AlertTriangle, Clock, CheckCircle, ShieldAlert, ArrowRight, Check } fro
 export function Alerts() {
   const [filterSeverity, setFilterSeverity] = useState('ALL');
   const [filterStatus, setFilterStatus] = useState('OPEN');
+  const [filterHouse, setFilterHouse] = useState('ALL');
   
   const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(new Set());
   const { alerts, loading: alertsLoading } = useAlerts(resolvedAlerts);
@@ -13,9 +14,10 @@ export function Alerts() {
     return alerts.filter((a: any) => {
       const matchSev = filterSeverity === 'ALL' || a.severity === filterSeverity;
       const matchStat = filterStatus === 'ALL' || a.status === filterStatus;
-      return matchSev && matchStat;
+      const matchHouse = filterHouse === 'ALL' || (a.member && a.member.house === filterHouse);
+      return matchSev && matchStat && matchHouse;
     });
-  }, [alerts, filterSeverity, filterStatus]);
+  }, [alerts, filterSeverity, filterStatus, filterHouse]);
 
   if (alertsLoading) return <div className="p-8 text-slate-500">Loading alerts engine...</div>;
 
@@ -91,6 +93,15 @@ export function Alerts() {
               <option value="ALL">All Statuses</option>
               <option value="OPEN">Open</option>
               <option value="RESOLVED">Resolved</option>
+            </select>
+            <select 
+              value={filterHouse} 
+              onChange={e => setFilterHouse(e.target.value)}
+              className="border border-slate-300 rounded px-3 py-1.5 text-sm"
+            >
+              <option value="ALL">All Houses</option>
+              <option value="Lok Sabha">Lok Sabha</option>
+              <option value="Rajya Sabha">Rajya Sabha</option>
             </select>
           </div>
         </div>

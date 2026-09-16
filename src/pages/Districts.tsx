@@ -23,13 +23,17 @@ export function Districts() {
     }>();
 
     members.forEach(m => {
-      // For this module, we only analyze Lok Sabha constituencies since RS doesn't have constituencies
-      if (m.house !== 'Lok Sabha' || !m.constituency) return;
+      // Analyze Lok Sabha by constituency, and Rajya Sabha by state
+      let areaName = m.constituency;
+      if (m.house === 'Rajya Sabha') {
+          areaName = m.state ? `${m.state} (Rajya Sabha)` : 'Unknown State (RS)';
+      }
+      if (!areaName || (!m.constituency && m.house === 'Lok Sabha')) return;
       
-      const key = `${m.constituency}, ${m.state}`;
+      const key = `${areaName}, ${m.state}`;
       if (!map.has(key)) {
         map.set(key, {
-          name: m.constituency,
+          name: areaName,
           state: m.state,
           memberCount: 0,
           totalAllocated: 0,

@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 import type { MemberOfParliament } from '../types';
 
 export async function fetchRajyaSabhaData(): Promise<MemberOfParliament[]> {
-  const response = await fetch('/rajya_sabha.csv');
+  const response = await fetch('/rajya_sabha.csv?v=' + new Date().getTime());
   const csvText = await response.text();
   
   return new Promise((resolve, reject) => {

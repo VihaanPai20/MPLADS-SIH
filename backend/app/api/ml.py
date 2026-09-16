@@ -9,7 +9,11 @@ from app.auth import RoleChecker
 from app.models.user import User
 
 router = APIRouter()
-ml_engine = MLRiskEngine()
+ml_engines = {
+    "LOK_SABHA": MLRiskEngine(),
+    "RAJYA_SABHA": MLRiskEngine(),
+    "ALL": MLRiskEngine()
+}
 
 admin_ministry_roles = RoleChecker(["administrator", "ministry"])
 
@@ -23,13 +27,13 @@ def get_ml_status():
                 "name": "Financial Anomaly Detection",
                 "algorithm": "Isolation Forest",
                 "type": "Unsupervised",
-                "status": "Active" if ml_engine.anomaly_detector.is_trained else "Untrained"
+                "status": "Active" if ml_engines["ALL"].anomaly_detector.is_trained else "Untrained"
             },
             {
                 "name": "Duplicate Portfolio Detection",
                 "algorithm": "TF-IDF + Cosine Similarity",
                 "type": "Unsupervised",
-                "status": "Active" if ml_engine.duplicate_detector.is_trained else "Untrained"
+                "status": "Active" if ml_engines["ALL"].duplicate_detector.is_trained else "Untrained"
             }
         ],
         "data_sufficiency": {
@@ -54,7 +58,7 @@ def train_models(db: Session = Depends(get_db), current_user: User = Depends(adm
         "allocated_amount": m.allocatedAmount
     } for m in members])
     
-    ml_engine.train_models(df)
+    ml_engines["ALL"].train_models(df)
     return {"status": "success", "message": "Models trained successfully"}
 
 @router.get("/risk")
@@ -65,7 +69,8 @@ def get_risk_analysis(
     """Returns predictive risk analysis for all members"""
     query = db.query(Member)
     if house and house != "ALL":
-        query = query.filter(Member.house == house)
+        db_house = "Lok Sabha" if house == "LOK_SABHA" else "Rajya Sabha"
+        query = query.filter(Member.house == db_house)
         
     members = query.all()
     if not members:
@@ -81,10 +86,13 @@ def get_risk_analysis(
     } for m in members])
     
     # Ensure models are trained
-    if not ml_engine.anomaly_detector.is_trained or not ml_engine.duplicate_detector.is_trained:
-        ml_engine.train_models(df)
+    engine_key = house if house in ml_engines else "ALL"
+    engine = ml_engines[engine_key]
+    
+    if not engine.anomaly_detector.is_trained or not engine.duplicate_detector.is_trained:
+        engine.train_models(df)
         
-    risk_df = ml_engine.analyze_risk(df)
+    risk_df = engine.analyze_risk(df)
     
     # Replace NaN with None for JSON serialization
     import numpy as np

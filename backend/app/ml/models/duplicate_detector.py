@@ -17,10 +17,8 @@ class DuplicateDetector:
     def _build_text(self, row):
         # Combine relevant fields to find similar portfolios
         name = str(row.get('name', ''))
-        state = str(row.get('state', ''))
         const = str(row.get('constituency', ''))
-        house = str(row.get('house', ''))
-        return f"{name} {state} {const} {house}".lower()
+        return f"{name} {const}".lower()
         
     def train(self, df: pd.DataFrame):
         texts = df.apply(self._build_text, axis=1)
