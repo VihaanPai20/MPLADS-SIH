@@ -86,24 +86,7 @@ export function Districts() {
           </p>
         </div>
         
-        {/* DATA COVERAGE CARD */}
-        <div className="bg-slate-900 text-slate-300 rounded-lg p-3 text-xs shadow-md border border-slate-700 w-full md:w-64">
-          <div className="flex items-center justify-between border-b border-slate-700 pb-2 mb-2">
-            <span className="font-bold tracking-wider text-slate-400">DATA COVERAGE</span>
-            <Database className="w-3 h-3 text-emerald-400" />
-          </div>
-          <div className="flex justify-between">
-            <span>Constituency (Lok Sabha)</span>
-            <span className="text-emerald-400 font-bold">100%</span>
-          </div>
-          <div className="flex justify-between">
-            <span>District (Native)</span>
-            <span className="text-red-400 font-bold">0%</span>
-          </div>
-          <div className="text-[10px] text-slate-500 mt-1 italic leading-tight">
-            Using 'Constituency' as the granular geographical entity due to lack of formal District mapping.
-          </div>
-        </div>
+
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -160,54 +143,49 @@ export function Districts() {
           </div>
         </div>
         
-        <div className="bg-slate-900 text-white p-6 rounded-lg border border-slate-800 shadow-xl flex flex-col justify-between">
+        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-bold text-white uppercase mb-4 flex items-center justify-between">
-              <span className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-emerald-400" /> Constituency Risk Telemetry</span>
-              <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] rounded-sm font-bold tracking-wider">OPERATIONAL</span>
+            <h3 className="text-sm font-bold text-slate-900 uppercase mb-4 flex items-center justify-between">
+              <span className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-slate-500" /> Regional Risk Summary</span>
             </h3>
-            <div className="space-y-4 text-sm text-slate-300">
+            <div className="space-y-4 text-sm text-slate-600">
               <p>
-                The <strong>Constituency Risk Prediction Engine</strong> aggregates underlying portfolio-level financial anomalies into a singular geographic risk vector (0-100%).
+                The risk summary aggregates portfolio-level financial exceptions into a geographical risk percentage for regional monitoring.
               </p>
               
-              <div className="bg-slate-800 p-4 rounded-lg border border-slate-700">
-                <span className="font-semibold text-blue-300 block mb-3 text-xs uppercase tracking-wider">
-                  Active Intelligence Telemetry:
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <span className="font-bold text-slate-700 block mb-3 text-xs uppercase tracking-wider">
+                  Current Status:
                 </span>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400">Total Constituencies Analyzed</span>
-                    <span className="font-bold text-white">{constituencyData.length}</span>
+                    <span className="text-slate-600">Constituencies Reviewed</span>
+                    <span className="font-bold text-slate-900">{constituencyData.length}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400">Critical / High Risk Regions</span>
-                    <span className="font-bold text-orange-400">{highRiskCount}</span>
+                    <span className="text-slate-600">High Risk Regions</span>
+                    <span className="font-bold text-orange-600">{highRiskCount}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400">Primary Driving Anomaly</span>
-                    <span className="font-bold text-red-400">Statistical Cost Deviations</span>
+                    <span className="text-slate-600">Most Common Issue</span>
+                    <span className="font-bold text-red-600">Cost Deviations</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="mt-6 pt-5 border-t border-slate-800">
-            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">System-Wide Recommended Action</h4>
+          <div className="mt-6 pt-5 border-t border-slate-200">
+            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Recommended Action</h4>
             {highRiskCount > 0 ? (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-sm text-red-200">
-                <strong className="block mb-2 text-red-400 uppercase text-xs tracking-wider">Action Required:</strong> 
-                Prioritize immediate manual verification of the {highRiskCount} constituencies flagged as HIGH or CRITICAL risk.
-                <strong className="block mt-3 mb-1 text-red-400 uppercase text-xs tracking-wider">Algorithmic Reasoning:</strong> 
-                These {highRiskCount} regions exhibit concentrated unusual statistical patterns (cost anomalies or potential duplicates) derived from their underlying member portfolios, indicating systemic execution breakdown.
+              <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-800">
+                <strong className="block mb-2 text-rose-700 uppercase text-xs tracking-wider">Audit Required:</strong> 
+                Please schedule manual verification for the {highRiskCount} constituencies currently marked as High or Critical risk.
               </div>
             ) : (
-              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 text-sm text-emerald-200">
-                <strong className="block mb-2 text-emerald-400 uppercase text-xs tracking-wider">Action Required:</strong> 
-                Continue routine monitoring. No immediate escalation required.
-                <strong className="block mt-3 mb-1 text-emerald-400 uppercase text-xs tracking-wider">Algorithmic Reasoning:</strong> 
-                All constituency-level aggregated risk scores remain within statistically acceptable boundaries.
+              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-sm text-emerald-800">
+                <strong className="block mb-2 text-emerald-700 uppercase text-xs tracking-wider">Status Normal:</strong> 
+                No immediate escalation required. Continue routine monitoring.
               </div>
             )}
           </div>

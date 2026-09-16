@@ -23,6 +23,7 @@ import {
 import { useHouse, type GlobalHouseSelection } from '../../contexts/HouseContext';
 import { useRole, type RoleSelection } from '../../contexts/RoleContext';
 import { useMembers, useMLData } from '../../hooks/useData';
+import { hasAccess } from '../../auth/permissions';
 
 const roles = [
   'Ministry',
@@ -77,12 +78,15 @@ export function GovernmentHeader() {
   const handleSelectResult = (_id: string) => {
     setSearch('');
     setIsSearchFocused(false);
-    navigate('/mps');
+    navigate('/dashboard/mps');
   };
 
   const activeAlerts = mlRisk ? mlRisk.filter(r => r.risk_level === 'CRITICAL').slice(0, 5) : [];
 
-  const isAnalyticsActive = ['/financial', '/project-execution', '/geographic', '/districts', '/agencies'].includes(location.pathname);
+  const isAnalyticsActive = ['/dashboard/financial', '/dashboard/project-execution', '/dashboard/geographic', '/dashboard/districts', '/dashboard/agencies'].includes(location.pathname);
+
+  const can = (route: string) => hasAccess(role, route as any);
+  const showAnalytics = can('analytics') || can('financial') || can('project-execution') || can('districts') || can('agencies') || can('geographic');
 
   return (
     <header className="w-full bg-white border-b border-[#DCE3EA] shadow-sm sticky top-0 z-50">
@@ -256,7 +260,7 @@ export function GovernmentHeader() {
                     activeAlerts.map((alert: any, idx) => {
                       const member = members.find(m => m.id === alert.member_id);
                       return (
-                        <div key={idx} className="p-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer" onClick={() => { setIsNotificationsOpen(false); navigate('/alerts'); }}>
+                        <div key={idx} className="p-3 border-b border-slate-100 hover:bg-slate-50 cursor-pointer" onClick={() => { setIsNotificationsOpen(false); navigate('/dashboard/alerts'); }}>
                           <div className="flex items-start gap-2">
                             <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                             <div>
@@ -272,7 +276,7 @@ export function GovernmentHeader() {
                 </div>
                 <div 
                   className="bg-slate-50 text-center py-2 text-xs font-bold text-blue-600 hover:bg-slate-100 cursor-pointer border-t border-slate-200"
-                  onClick={() => { setIsNotificationsOpen(false); navigate('/alerts'); }}
+                  onClick={() => { setIsNotificationsOpen(false); navigate('/dashboard/alerts'); }}
                 >
                   View All Alerts in Hub
                 </div>
@@ -288,6 +292,15 @@ export function GovernmentHeader() {
             <div className="hidden md:flex flex-col text-left">
               <span className="text-xs font-bold text-[#0B2945] leading-none">Authority User</span>
               <span className="text-[10px] text-[#526477] font-semibold leading-tight mt-0.5">{role}</span>
+              <button 
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  navigate('/login');
+                }}
+                className="text-[9px] text-red-500 font-bold hover:underline text-left mt-0.5"
+              >
+                Logout
+              </button>
             </div>
           </div>
 
@@ -313,50 +326,50 @@ export function GovernmentHeader() {
               Dashboard
             </NavLink>
 
-            <NavLink 
-              to="/mps" 
+            {can('mps') && <NavLink 
+              to="/dashboard/mps" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <Users className="w-3.5 h-3.5 mr-1.5 text-slate-300" />
               MPs
-            </NavLink>
+            </NavLink>}
 
-            <NavLink 
-              to="/projects" 
+            {can('projects') && <NavLink 
+              to="/dashboard/projects" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <FolderKanban className="w-3.5 h-3.5 mr-1.5 text-slate-300" />
               Works & Projects
-            </NavLink>
+            </NavLink>}
 
-            <NavLink 
-              to="/risk-analysis" 
+            {can('risk-analysis') && <NavLink 
+              to="/dashboard/risk-analysis" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <AlertTriangle className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
               Risk & ML Analysis
-            </NavLink>
+            </NavLink>}
 
-            <NavLink 
-              to="/alerts" 
+            {can('alerts') && <NavLink 
+              to="/dashboard/alerts" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <Bell className="w-3.5 h-3.5 mr-1.5 text-red-400" />
               Alerts
-            </NavLink>
+            </NavLink>}
 
-            <NavLink 
-              to="/compliance" 
+            {can('compliance') && <NavLink 
+              to="/dashboard/compliance" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-emerald-400" />
               Compliance
-            </NavLink>
+            </NavLink>}
 
-            {/* Analytics Dropdown */}
-            <div className="relative" ref={analyticsDropdownRef} onMouseEnter={() => setIsAnalyticsDropdownOpen(true)} onMouseLeave={() => setIsAnalyticsDropdownOpen(false)}>
+            {/* Analytics Dropdown - only show if role can access any analytics sub-page */}
+            {showAnalytics && <div className="relative" ref={analyticsDropdownRef} onMouseEnter={() => setIsAnalyticsDropdownOpen(true)} onMouseLeave={() => setIsAnalyticsDropdownOpen(false)}>
               <NavLink
-                to="/analytics"
+                to="/dashboard/analytics"
                 className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive || isAnalyticsActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
               >
                 <TrendingUp className="w-3.5 h-3.5 mr-1.5 text-sky-300" />
@@ -365,70 +378,70 @@ export function GovernmentHeader() {
               </NavLink>
               {isAnalyticsDropdownOpen && (
                 <div className="absolute top-full left-0 w-48 bg-[#0B2945] border border-[#123F68] shadow-xl rounded-b py-1 z-50 text-xs">
-                  <NavLink 
-                    to="/financial" 
+                  {can('financial') && <NavLink 
+                    to="/dashboard/financial" 
                     onClick={() => setIsAnalyticsDropdownOpen(false)}
                     className="block px-4 py-2 hover:bg-[#123F68] text-slate-200 hover:text-white"
                   >
                     Financial Analytics
-                  </NavLink>
-                  <NavLink 
-                    to="/project-execution" 
+                  </NavLink>}
+                  {can('project-execution') && <NavLink 
+                    to="/dashboard/project-execution" 
                     onClick={() => setIsAnalyticsDropdownOpen(false)}
                     className="block px-4 py-2 hover:bg-[#123F68] text-slate-200 hover:text-white"
                   >
                     Project Execution
-                  </NavLink>
-                  <NavLink 
-                    to="/geographic" 
+                  </NavLink>}
+                  {can('geographic') && <NavLink 
+                    to="/dashboard/geographic" 
                     onClick={() => setIsAnalyticsDropdownOpen(false)}
                     className="block px-4 py-2 hover:bg-[#123F68] text-slate-200 hover:text-white flex items-center"
                   >
                     <Map className="w-3 h-3 mr-1.5 text-emerald-400" />
                     Geographic Map
-                  </NavLink>
-                  <NavLink 
-                    to="/districts" 
+                  </NavLink>}
+                  {can('districts') && <NavLink 
+                    to="/dashboard/districts" 
                     onClick={() => setIsAnalyticsDropdownOpen(false)}
                     className="block px-4 py-2 hover:bg-[#123F68] text-slate-200 hover:text-white flex items-center"
                   >
                     <Building className="w-3 h-3 mr-1.5 text-amber-400" />
                     Districts View
-                  </NavLink>
-                  <NavLink 
-                    to="/agencies" 
+                  </NavLink>}
+                  {can('agencies') && <NavLink 
+                    to="/dashboard/agencies" 
                     onClick={() => setIsAnalyticsDropdownOpen(false)}
                     className="block px-4 py-2 hover:bg-[#123F68] text-slate-200 hover:text-white"
                   >
                     Implementing Agencies
-                  </NavLink>
+                  </NavLink>}
                 </div>
               )}
-            </div>
+            </div>}
 
-            <NavLink 
-              to="/assistant" 
+            {can('assistant') && <NavLink 
+              to="/dashboard/assistant" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <Bot className="w-3.5 h-3.5 mr-1.5 text-amber-300 animate-pulse" />
               AI Investigation Assistant
-            </NavLink>
+            </NavLink>}
 
-            <NavLink 
-              to="/reports" 
+            {can('reports') && <NavLink 
+              to="/dashboard/reports" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <FileText className="w-3.5 h-3.5 mr-1.5 text-slate-300" />
               Reports
-            </NavLink>
+            </NavLink>}
 
-            <NavLink 
-              to="/audit" 
+            {can('audit') && <NavLink 
+              to="/dashboard/audit" 
               className={({ isActive }) => `flex items-center px-3.5 py-2.5 transition-colors border-b-4 ${isActive ? 'bg-[#0B2945] border-[#D4AF37] font-bold text-white' : 'border-transparent hover:bg-[#0B2945] text-slate-100'}`}
             >
               <History className="w-3.5 h-3.5 mr-1.5 text-slate-300" />
               Audit Trail
-            </NavLink>
+            </NavLink>}
           </div>
         </div>
 
@@ -448,16 +461,16 @@ export function GovernmentHeader() {
               </select>
             </div>
             <NavLink to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Dashboard</NavLink>
-            <NavLink to="/mps" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Members of Parliament</NavLink>
-            <NavLink to="/projects" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Works & Projects</NavLink>
-            <NavLink to="/risk-analysis" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Risk & ML Analysis</NavLink>
-            <NavLink to="/alerts" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Alerts & Escalations</NavLink>
-            <NavLink to="/compliance" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Compliance</NavLink>
-            <NavLink to="/financial" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white pl-6">Financial Analytics</NavLink>
-            <NavLink to="/geographic" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white pl-6">Geographic Map</NavLink>
-            <NavLink to="/assistant" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">AI Assistant</NavLink>
-            <NavLink to="/reports" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Reports</NavLink>
-            <NavLink to="/audit" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Audit Trail</NavLink>
+            {can('mps') && <NavLink to="/dashboard/mps" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Members of Parliament</NavLink>}
+            {can('projects') && <NavLink to="/dashboard/projects" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Works & Projects</NavLink>}
+            {can('risk-analysis') && <NavLink to="/dashboard/risk-analysis" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Risk & ML Analysis</NavLink>}
+            {can('alerts') && <NavLink to="/dashboard/alerts" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Alerts & Escalations</NavLink>}
+            {can('compliance') && <NavLink to="/dashboard/compliance" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Compliance</NavLink>}
+            {can('financial') && <NavLink to="/dashboard/financial" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white pl-6">Financial Analytics</NavLink>}
+            {can('geographic') && <NavLink to="/dashboard/geographic" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white pl-6">Geographic Map</NavLink>}
+            {can('assistant') && <NavLink to="/dashboard/assistant" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">AI Assistant</NavLink>}
+            {can('reports') && <NavLink to="/dashboard/reports" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Reports</NavLink>}
+            {can('audit') && <NavLink to="/dashboard/audit" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded hover:bg-[#123F68] text-white">Audit Trail</NavLink>}
           </div>
         )}
       </nav>

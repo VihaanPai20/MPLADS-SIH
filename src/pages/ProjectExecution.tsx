@@ -131,24 +131,24 @@ export function ProjectExecution() {
         </div>
         
         {/* AI Explainability */}
-        <div className="bg-slate-900 text-white p-6 rounded-lg border border-slate-800 shadow-xl flex flex-col">
-          <h3 className="text-sm font-bold uppercase mb-4 flex items-center gap-2 text-slate-200">
-            <TrendingUp className="w-4 h-4 text-emerald-400" /> Model Telemetry
+        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col">
+          <h3 className="text-sm font-bold uppercase mb-4 flex items-center gap-2 text-slate-900">
+            <TrendingUp className="w-4 h-4 text-slate-500" /> Delay Prediction Methodology
           </h3>
-          <div className="space-y-4 text-sm text-slate-300 flex-1">
+          <div className="space-y-4 text-sm text-slate-600 flex-1">
             <p>
-              The <strong>Supervised Delay Prediction Model</strong> translates structural and financial allocation anomalies into a unified physical execution delay probability (0-100%).
+              The delay prediction system evaluates financial and structural parameters to estimate the probability of execution stalls (0-100%).
             </p>
-            <div className="bg-slate-800 p-3 rounded-md border border-slate-700">
-              <span className="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Active Architecture</span>
-              <ul className="list-disc pl-4 space-y-1 text-xs">
-                <li>Feature Input: Isolation Forest cost outliers</li>
-                <li>Feature Input: TF-IDF portfolio similarity indices</li>
-                <li>Inference: Algorithmic transformation of systemic financial risk into projected physical delays.</li>
+            <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+              <span className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Evaluation Criteria</span>
+              <ul className="list-disc pl-4 space-y-2 text-xs">
+                <li><strong>Financial Risk:</strong> Analysis of outlier spending patterns.</li>
+                <li><strong>Portfolio Similarity:</strong> Comparison against typical execution baselines.</li>
+                <li><strong>Outcome:</strong> Translates these systemic risks into actionable delay probabilities.</li>
               </ul>
             </div>
-            <p className="text-xs text-slate-400 mt-auto border-t border-slate-800 pt-4">
-              * By identifying portfolios with highly atypical spending behaviors, the model accurately predicts environments highly conducive to physical execution stalls.
+            <p className="text-xs text-slate-500 mt-auto border-t border-slate-200 pt-4">
+              * Note: High delay probabilities indicate environments where projects historically face structural bottlenecks, requiring preemptive action.
             </p>
           </div>
         </div>

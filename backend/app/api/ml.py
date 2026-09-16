@@ -5,9 +5,13 @@ import pandas as pd
 from app.database import get_db
 from app.models.member import Member
 from app.ml.risk_engine import MLRiskEngine
+from app.auth import RoleChecker
+from app.models.user import User
 
 router = APIRouter()
 ml_engine = MLRiskEngine()
+
+admin_ministry_roles = RoleChecker(["administrator", "ministry"])
 
 @router.get("/status")
 def get_ml_status():
@@ -35,7 +39,7 @@ def get_ml_status():
     }
 
 @router.post("/train")
-def train_models(db: Session = Depends(get_db)):
+def train_models(db: Session = Depends(get_db), current_user: User = Depends(admin_ministry_roles)):
     """Triggers retraining of the ML models on current database records"""
     members = db.query(Member).all()
     if not members:
