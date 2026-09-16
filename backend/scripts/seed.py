@@ -26,9 +26,9 @@ def seed_data():
     rajya_sabha_path = '../public/rajya_sabha.csv'
 
     try:
-        if db.query(Member).first():
-            print("Database already seeded!")
-            return
+        # Clear existing data to allow re-seeding with updated dataset
+        db.query(Member).delete()
+        db.commit()
 
         print("Seeding Lok Sabha...")
         ls_df = pd.read_csv(lok_sabha_path)

@@ -65,7 +65,8 @@ def get_risk_analysis(
     """Returns predictive risk analysis for all members"""
     query = db.query(Member)
     if house and house != "ALL":
-        query = query.filter(Member.house == house)
+        db_house = "Lok Sabha" if house == "LOK_SABHA" else "Rajya Sabha" if house == "RAJYA_SABHA" else house
+        query = query.filter(Member.house == db_house)
         
     members = query.all()
     if not members:

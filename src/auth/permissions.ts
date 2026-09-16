@@ -43,7 +43,8 @@ const ROLE_PERMISSIONS: Record<RoleSelection, RoutePath[]> = {
   ],
   'District Authority': [
     'dashboard', 'projects', 'alerts',
-    'project-execution', 'districts', 'reports'
+    'project-execution', 'districts', 'reports',
+    'analytics', 'financial', 'geographic'
   ],
   'Member of Parliament': [
     'dashboard', 'projects', 'reports'
