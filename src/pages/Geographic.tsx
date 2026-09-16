@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGeographicAnalytics, useRiskAnalysis } from '../hooks/useData';
 import { Map as MapIcon, ChevronRight, Loader2, BarChart2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
@@ -26,6 +27,7 @@ function MapController({ geojson }: { geojson: any }) {
 }
 
 export function Geographic() {
+  const navigate = useNavigate();
   const { analytics, loading: geoLoading } = useGeographicAnalytics();
   const { riskData, loading: riskLoading } = useRiskAnalysis();
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -290,7 +292,7 @@ export function Geographic() {
                 </div>
                 
                 <div className="pt-4 border-t border-slate-100">
-                  <button className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-blue-600 text-sm font-semibold rounded-md border border-slate-200 transition-colors flex items-center justify-center gap-1">
+                  <button onClick={() => navigate('/dashboard/districts')} className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-blue-600 text-sm font-semibold rounded-md border border-slate-200 transition-colors flex items-center justify-center gap-1">
                     View District Analytics <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>

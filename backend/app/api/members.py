@@ -4,6 +4,8 @@ from typing import List
 from ..database import get_db
 from ..models.member import Member
 from ..schemas.member import MemberResponse
+from ..auth import RoleChecker
+from ..models.user import User
 
 router = APIRouter()
 

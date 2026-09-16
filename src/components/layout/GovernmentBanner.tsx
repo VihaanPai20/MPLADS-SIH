@@ -14,72 +14,72 @@ const pageMetadataMap: Record<string, BannerMetadata> = {
     title: 'Member Of Parliament Local Area Development Scheme (MPLADS)',
     subtitle: 'National Monitoring Portal for Sanctioned Works, Fund Flows, and Machine Learning Risk Analytics.'
   },
-  '/mps': {
+  '/dashboard/mps': {
     category: 'Parliament Roster',
     title: 'Members of Parliament (Lok Sabha & Rajya Sabha)',
     subtitle: 'Constituency portfolios, fund allocation, and work recommendation progress.'
   },
-  '/projects': {
+  '/dashboard/projects': {
     category: 'Monitoring',
     title: 'MPLADS Sanctioned Works & Projects Master Registry',
     subtitle: 'Comprehensive tracking of physical execution, financial milestones, and district status.'
   },
-  '/risk-analysis': {
+  '/dashboard/risk-analysis': {
     category: 'Intelligence & Analytics',
     title: 'Predictive Machine Learning Risk Engine',
     subtitle: 'Unsupervised Isolation Forest anomaly detection and TF-IDF duplicate portfolio matching.'
   },
-  '/alerts': {
+  '/dashboard/alerts': {
     category: 'Monitoring & Escalations',
     title: 'Real-time System Alerts & Compliance Exceptions',
     subtitle: 'High-risk automated alerts for cost escalation, delay risk, and implementation anomalies.'
   },
-  '/compliance': {
+  '/dashboard/compliance': {
     category: 'Regulatory Oversight',
     title: 'MPLADS Scheme Guidelines Compliance Framework',
     subtitle: 'Verification of eligible sectors, prohibited works, and audit certificate compliance.'
   },
-  '/analytics': {
+  '/dashboard/analytics': {
     category: 'Analytics',
     title: 'Analytics Intelligence Hub',
     subtitle: 'Centralized telemetry access for financial, geographic, and execution diagnostics.'
   },
-  '/financial': {
+  '/dashboard/financial': {
     category: 'Analytics',
     title: 'Financial Allocation & Expenditure Analytics',
     subtitle: 'State-wise fund distribution, unspent balance telemetry, and audit reporting.'
   },
-  '/project-execution': {
+  '/dashboard/project-execution': {
     category: 'Analytics',
     title: 'Project Completion & Execution Telemetry',
     subtitle: 'Physical progress vs financial progress evaluation and bottleneck diagnosis.'
   },
-  '/districts': {
+  '/dashboard/districts': {
     category: 'Analytics',
     title: 'District Nodal Authority Execution Directory',
     subtitle: 'On-ground implementation status across 700+ administrative districts.'
   },
-  '/agencies': {
+  '/dashboard/agencies': {
     category: 'Analytics',
     title: 'Implementing Agencies Performance Register',
     subtitle: 'Execution agency productivity, delayed works, and vendor verification.'
   },
-  '/geographic': {
+  '/dashboard/geographic': {
     category: 'Spatial Intelligence',
     title: 'Geographic GIS Mapping & Spatial Analytics',
     subtitle: 'Interactive map of MPLADS works across Indian states and parliamentary constituencies.'
   },
-  '/assistant': {
+  '/dashboard/assistant': {
     category: 'Intelligence & Decision Support',
     title: 'AI Investigation & Decision Support Assistant',
     subtitle: 'Conversational natural language audit assistant powered by ML telemetry.'
   },
-  '/reports': {
+  '/dashboard/reports': {
     category: 'Management',
     title: 'Official Ministry & State Progress Reports',
     subtitle: 'Generation of utilization certificates, parliamentary disclosures, and summary sheets.'
   },
-  '/audit': {
+  '/dashboard/audit': {
     category: 'Management & Governance',
     title: 'Platform System Audit Trail & Event Logs',
     subtitle: 'Immutable record of data ingest, ML model execution, and user actions.'

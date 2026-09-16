@@ -7,7 +7,7 @@ import type { GlobalHouseSelection } from '../contexts/HouseContext';
 let cachedLokSabha: MemberOfParliament[] | null = null;
 let cachedRajyaSabha: MemberOfParliament[] | null = null;
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export async function fetchAllMembers(): Promise<{ lokSabha: MemberOfParliament[], rajyaSabha: MemberOfParliament[] }> {
   if (!cachedLokSabha) {
@@ -85,9 +85,18 @@ export async function getDataQualityStats(houseSelection: GlobalHouseSelection) 
 // ML API ENDPOINTS
 // --------------------------------------------------------
 
+function getAuthHeaders() {
+  const token = localStorage.getItem('token');
+  return {
+    'Authorization': token ? `Bearer ${token}` : '',
+  };
+}
+
 export async function getMLStatus(): Promise<any> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/ml/status`);
+    const res = await fetch(`${API_BASE_URL}/api/ml/status`, {
+      headers: getAuthHeaders()
+    });
     if (!res.ok) throw new Error('ML Status fetch failed');
     return res.json();
   } catch (error) {
@@ -98,7 +107,10 @@ export async function getMLStatus(): Promise<any> {
 
 export async function trainMLModels(): Promise<any> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/ml/train`, { method: 'POST' });
+    const res = await fetch(`${API_BASE_URL}/api/ml/train`, { 
+      method: 'POST',
+      headers: getAuthHeaders()
+    });
     if (!res.ok) throw new Error('ML Train failed');
     return res.json();
   } catch (error) {
@@ -112,7 +124,9 @@ export async function getMLRiskAnalysis(house: string = 'ALL'): Promise<any[]> {
     const url = new URL(`${API_BASE_URL}/api/ml/risk`);
     if (house && house !== 'ALL') url.searchParams.append('house', house);
     
-    const res = await fetch(url.toString());
+    const res = await fetch(url.toString(), {
+      headers: getAuthHeaders()
+    });
     if (!res.ok) throw new Error('ML Risk fetch failed');
     const data = await res.json();
     return data.results || [];

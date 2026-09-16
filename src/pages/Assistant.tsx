@@ -67,59 +67,76 @@ export function Assistant() {
     
     // Advanced NLP-style Heuristics Engine
     setTimeout(() => {
-      let response = "I couldn't definitively map your query to the available MPLADS structural data. Please ask about risk, constituencies, authorities, anomalies, or duplicates.";
       const q = userMsg.toLowerCase();
-
+      let response = `I have analyzed your query regarding "${userMsg}". While I don't see specific structural anomalies mapped to those exact terms in the current telemetry, looking at the broader dataset: we are actively monitoring ${members.length} member portfolios, with ${analytics.highRiskMembers.length} currently flagged as elevated risk by the ML engine. Is there a specific state, constituency, or authority you'd like me to deep-dive into?`;
+      
+      // Evaluate all matchers and combine responses
+      let responses: string[] = [];
+      
       // 1. Constituency / District Risk
       if (q.includes('constituency') || q.includes('district') || q.includes('region')) {
         if (q.includes('risk') || q.includes('highest') || q.includes('top')) {
           const top = analytics.constituencies.slice(0, 3);
-          response = `Based on aggregated predictive intelligence, the highest-risk constituencies are:\n\n1. **${top[0]?.name}** (Risk: ${top[0]?.risk.toFixed(1)})\n2. **${top[1]?.name}** (Risk: ${top[1]?.risk.toFixed(1)})\n3. **${top[2]?.name}** (Risk: ${top[2]?.risk.toFixed(1)})\n\nThese scores are the arithmetic mean of the ML anomaly scores of all member portfolios within that geographic boundary.`;
+          responses.push(`Based on aggregated predictive intelligence, the highest-risk constituencies are:\n1. **${top[0]?.name}** (Risk: ${top[0]?.risk.toFixed(1)})\n2. **${top[1]?.name}** (Risk: ${top[1]?.risk.toFixed(1)})\n3. **${top[2]?.name}** (Risk: ${top[2]?.risk.toFixed(1)})\nThese scores are the arithmetic mean of the ML anomaly scores of all member portfolios within that geographic boundary.`);
         } else {
-          response = `We are currently tracking ${analytics.constituencies.length} Lok Sabha constituencies. You can view their aggregated predictive risks in the Constituency Intelligence tab.`;
+          responses.push(`We are currently tracking ${analytics.constituencies.length} Lok Sabha constituencies. You can view their aggregated predictive risks in the Constituency Intelligence tab.`);
         }
       }
       
       // 2. Agency / Authority Risk
-      else if (q.includes('agency') || q.includes('authority') || q.includes('state nodal') || q.includes('entity')) {
+      if (q.includes('agency') || q.includes('authority') || q.includes('state nodal') || q.includes('entity')) {
         if (q.includes('risk') || q.includes('highest') || q.includes('top')) {
           const top = analytics.authorities.slice(0, 3);
-          response = `Because granular agency data is unavailable in the source CSVs, I analyze execution risk at the State Nodal Authority level. The most elevated systemic risks are currently found in:\n\n1. **${top[0]?.name}** (Risk: ${top[0]?.risk.toFixed(1)})\n2. **${top[1]?.name}** (Risk: ${top[1]?.risk.toFixed(1)})\n3. **${top[2]?.name}** (Risk: ${top[2]?.risk.toFixed(1)})`;
+          responses.push(`Because granular agency data is unavailable in the source CSVs, I analyze execution risk at the State Nodal Authority level. The most elevated systemic risks are currently found in:\n1. **${top[0]?.name}** (Risk: ${top[0]?.risk.toFixed(1)})\n2. **${top[1]?.name}** (Risk: ${top[1]?.risk.toFixed(1)})\n3. **${top[2]?.name}** (Risk: ${top[2]?.risk.toFixed(1)})`);
         } else {
-          response = `Granular agency data (0% coverage) is absent from the dataset. We use State Nodal Authorities as the primary implementing entity. There are ${analytics.authorities.length} authorities currently being monitored.`;
+          responses.push(`Granular agency data (0% coverage) is absent from the dataset. We use State Nodal Authorities as the primary implementing entity. There are ${analytics.authorities.length} authorities currently being monitored.`);
         }
       }
       
       // 3. Duplicate Detection
-      else if (q.includes('duplicate') || q.includes('similar')) {
-        response = `The Python ML backend (TF-IDF Cosine Similarity engine) has flagged **${analytics.duplicates.length} portfolios** as having unusually high structural similarity to other allocations, suggesting potential duplication. Please review the Risk Analysis tab for the specific entity mappings.`;
+      if (q.includes('duplicate') || q.includes('similar')) {
+        responses.push(`The Python ML backend (TF-IDF Cosine Similarity engine) has flagged **${analytics.duplicates.length} portfolios** as having unusually high structural similarity to other allocations, suggesting potential duplication. Please review the Risk Analysis tab for the specific entity mappings.`);
       }
       
       // 4. Anomaly Detection
-      else if (q.includes('anomaly') || q.includes('outlier') || q.includes('unusual')) {
-        response = `The ML Isolation Forest model has detected **${analytics.anomalies.length} statistical cost anomalies**. These portfolios deviate significantly from standard state-level allocation patterns and require manual verification.`;
+      if (q.includes('anomaly') || q.includes('outlier') || q.includes('unusual')) {
+        responses.push(`The ML Isolation Forest model has detected **${analytics.anomalies.length} statistical cost anomalies**. These portfolios deviate significantly from standard state-level allocation patterns and require manual verification.`);
       }
 
-      // 5. General Risk
-      else if (q.includes('high risk') || q.includes('high-risk') || q.includes('risk')) {
-        response = `The ML Risk Engine is currently flagging **${analytics.highRiskMembers.length} member portfolios** as HIGH or CRITICAL risk. This is a unified metric combining both Isolation Forest cost anomalies and structural duplicate detection.`;
+      // 5. General Risk / Detection Results
+      if (q.includes('high risk') || q.includes('high-risk') || q.includes('risk') || q.includes('detection') || q.includes('results')) {
+        responses.push(`**Detection Results Overview:**\nThe ML Risk Engine has flagged **${analytics.highRiskMembers.length} member portfolios** as HIGH or CRITICAL risk.\n- **${analytics.anomalies.length}** structural cost anomalies (Isolation Forest)\n- **${analytics.duplicates.length}** potential duplicate allocations (TF-IDF Similarity)\nThis is a unified metric analyzing the entire normalized dataset. Navigate to the Risk Analysis tab for detailed portfolio breakdowns.`);
       }
       
       // 6. Fabrication / Integrity guards
-      else if (q.includes('delay') || q.includes('completion date')) {
-        response = "I strictly adhere to the Architectural Integrity Guard: I cannot predict specific project delays because physical timeline data is genuinely missing from the source dataset. Instead, please rely on the proxy 'Execution Risk' provided in the analytics tabs.";
+      if (q.includes('delay') || q.includes('completion date')) {
+        responses.push("I strictly adhere to the Architectural Integrity Guard: I cannot predict specific project delays because physical timeline data is genuinely missing from the source dataset. Instead, please rely on the proxy 'Execution Risk' provided in the analytics tabs.");
       }
       
-      // 7. General Aggregations
-      else if (q.includes('highest allocation') || q.includes('most spent')) {
+      // 7. General Aggregations / Allocation Analysis
+      if (q.includes('allocation') || q.includes('analysis') || q.includes('spent') || q.includes('maximum')) {
         const stateMap = new Map<string, number>();
+        let totalSanctioned = 0;
         members.forEach(m => {
+          totalSanctioned += m.allocatedAmount;
           if (m.state) stateMap.set(m.state, (stateMap.get(m.state) || 0) + m.allocatedAmount);
         });
         const highest = Array.from(stateMap.entries()).sort((a, b) => b[1] - a[1])[0];
         if (highest) {
-          response = `The state managing the highest total allocation in the current dataset is **${highest[0]}** with **₹${(highest[1]/10000000).toFixed(2)} Cr**.`;
+          responses.push(`**Allocation Analysis:**\nWe are currently analyzing **₹${(totalSanctioned/10000000).toFixed(2)} Cr** across **${members.length} portfolios**.\nThe state managing the highest total allocation is **${highest[0]}** with **₹${(highest[1]/10000000).toFixed(2)} Cr**.\nCurrently, ${analytics.authorities.length} State Nodal Authorities are being monitored for fund utilization and execution risk.`);
         }
+      }
+      
+      // 8. Specific member or state search
+      const matchedState = analytics.authorities.find(a => q.includes(a.name.toLowerCase()));
+      if (matchedState) {
+        responses.push(`Analyzing data for **${matchedState.name}**:\nThe aggregated ML predictive risk for this State Nodal Authority is **${matchedState.risk.toFixed(1)}/100**. This suggests a ${matchedState.risk > 50 ? 'high' : 'standard'} level of execution risk based on structural anomalies detected in its managed portfolios.`);
+      }
+
+      if (responses.length > 0) {
+        // If multiple matches, deduplicate overlapping sections if any, but a simple join is fine for this mock.
+        // We will take unique responses (in case of overlap) and join them.
+        response = Array.from(new Set(responses)).join('\n\n---\n\n');
       }
 
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);

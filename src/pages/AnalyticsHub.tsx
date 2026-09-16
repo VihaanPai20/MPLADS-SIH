@@ -7,7 +7,7 @@ export function AnalyticsHub() {
   const analyticsModules = [
     {
       title: 'Financial Analytics',
-      path: '/financial',
+      path: '/dashboard/financial',
       icon: TrendingUp,
       description: 'State-wise fund distribution, unspent balance telemetry, and utilization tracking.',
       color: 'text-sky-600',
@@ -16,7 +16,7 @@ export function AnalyticsHub() {
     },
     {
       title: 'Project Execution',
-      path: '/project-execution',
+      path: '/dashboard/project-execution',
       icon: FolderKanban,
       description: 'Physical vs financial progress evaluation and bottleneck diagnosis across regions.',
       color: 'text-emerald-600',
@@ -25,7 +25,7 @@ export function AnalyticsHub() {
     },
     {
       title: 'Geographic Map',
-      path: '/geographic',
+      path: '/dashboard/geographic',
       icon: Map,
       description: 'Interactive spatial analytics of MPLADS works across Indian states and constituencies.',
       color: 'text-purple-600',
@@ -34,7 +34,7 @@ export function AnalyticsHub() {
     },
     {
       title: 'District Intelligence',
-      path: '/districts',
+      path: '/dashboard/districts',
       icon: Building,
       description: 'On-ground implementation status and ML risk aggregation across constituencies.',
       color: 'text-amber-600',
@@ -43,7 +43,7 @@ export function AnalyticsHub() {
     },
     {
       title: 'Implementing Agencies',
-      path: '/agencies',
+      path: '/dashboard/agencies',
       icon: Users,
       description: 'State Nodal Authority performance register, productivity, and risk metrics.',
       color: 'text-rose-600',

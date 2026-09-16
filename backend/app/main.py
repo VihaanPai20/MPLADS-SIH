@@ -2,7 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
-from app.api import members, ml
+from app.api import members, ml, auth
+from app.database import engine
+from app.models import user
+
+# Create tables
+user.Base.metadata.create_all(bind=engine)
 
 load_dotenv()
 
@@ -23,6 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
 app.include_router(members.router, prefix="/api/members", tags=["Members"])
 app.include_router(ml.router, prefix="/api/ml", tags=["Machine Learning"])
 
