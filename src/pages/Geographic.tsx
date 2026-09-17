@@ -86,7 +86,7 @@ export function Geographic() {
     const stateData = enrichedAnalytics.find(a => a.state.toLowerCase().replace(/&/g,'and') === stateName?.toLowerCase().replace(/&/g,'and'));
     
     if (!stateData) {
-      return { fillColor: '#e2e8f0', weight: 1, opacity: 1, color: 'white', fillOpacity: 0.4 };
+      return { fillColor: '#D8D5CB', weight: 1, opacity: 1, color: 'white', fillOpacity: 0.4 };
     }
 
     let intensity = 0;
@@ -121,15 +121,15 @@ export function Geographic() {
     
     if (stateData) {
       layer.bindTooltip(`
-        <div class="font-bold text-slate-800">${stateData.state}</div>
-        <div class="text-xs text-slate-600 mt-1">
+        <div class="font-bold text-charcoal">${stateData.state}</div>
+        <div class="text-xs text-secondaryText mt-1">
           <div>Members: ${stateData.membersCount}</div>
           <div>Allocation: ₹${(stateData.allocation / 10000000).toFixed(2)} Cr</div>
           <div>Risk Signals: ${stateData.riskSignals}</div>
         </div>
       `, { sticky: true });
     } else {
-       layer.bindTooltip(`<div class="font-bold text-slate-800">${stateName || 'Unknown'}</div><div class="text-xs text-slate-500">No data</div>`, { sticky: true });
+       layer.bindTooltip(`<div class="font-bold text-charcoal">${stateName || 'Unknown'}</div><div class="text-xs text-mutedText">No data</div>`, { sticky: true });
     }
 
     layer.on({
@@ -147,35 +147,35 @@ export function Geographic() {
     });
   };
 
-  if (geoLoading || riskLoading) return <div className="p-8 text-slate-500 flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Loading geographic analytics...</div>;
+  if (geoLoading || riskLoading) return <div className="p-8 text-mutedText flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin" /> Loading geographic analytics...</div>;
 
   const selectedStateData = selectedState ? enrichedAnalytics.find(a => a.state === selectedState) : null;
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Geographic Intelligence</h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <h1 className="text-2xl font-bold text-charcoal">Geographic Intelligence</h1>
+        <p className="text-mutedText mt-1 text-sm">
           Interactive state-level intelligence mapping for risk and financial allocation.
         </p>
       </div>
 
       {topKPIs && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">States Covered</div>
-            <div className="text-xl font-bold text-slate-900">{topKPIs.statesCovered}</div>
+          <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm">
+            <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">States Covered</div>
+            <div className="text-xl font-bold text-charcoal">{topKPIs.statesCovered}</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Total Allocation</div>
-            <div className="text-xl font-bold text-slate-900">₹{(topKPIs.totalAlloc / 10000000).toFixed(0)} Cr</div>
+          <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm">
+            <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">Total Allocation</div>
+            <div className="text-xl font-bold text-charcoal">₹{(topKPIs.totalAlloc / 10000000).toFixed(0)} Cr</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-blue-500">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Highest Allocation</div>
-            <div className="text-lg font-bold text-blue-700 truncate">{topKPIs.highestAlloc.state}</div>
+          <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm border-l-4 border-l-blue-500">
+            <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">Highest Allocation</div>
+            <div className="text-lg font-bold text-forest-deep truncate">{topKPIs.highestAlloc.state}</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-red-500">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Highest Risk Concentration</div>
+          <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm border-l-4 border-l-red-500">
+            <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">Highest Risk Concentration</div>
             <div className="text-lg font-bold text-red-600 truncate">{topKPIs.highestRisk.state}</div>
           </div>
         </div>
@@ -185,28 +185,28 @@ export function Geographic() {
       <div className="flex flex-col lg:flex-row gap-6">
         
         {/* Map Section */}
-        <div className="w-full lg:w-2/3 bg-white border border-slate-200 rounded-lg shadow-sm flex flex-col overflow-hidden">
-          <div className="p-4 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h2 className="font-bold text-slate-800 flex items-center gap-2">
-              <MapIcon className="w-5 h-5 text-slate-400" />
+        <div className="w-full lg:w-2/3 bg-white border border-brandBorder rounded-lg shadow-sm flex flex-col overflow-hidden">
+          <div className="p-4 border-b border-brandBorder bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <h2 className="font-bold text-charcoal flex items-center gap-2">
+              <MapIcon className="w-5 h-5 text-mutedText" />
               India Geographic Map
             </h2>
-            <div className="flex bg-white border border-slate-300 rounded-md p-1 shadow-sm text-sm">
+            <div className="flex bg-white border border-brandBorder rounded-md p-1 shadow-sm text-sm">
               <button 
                 onClick={() => setMapMetric('allocation')}
-                className={`px-3 py-1.5 rounded-sm font-medium transition-colors ${mapMetric === 'allocation' ? 'bg-blue-100 text-blue-700' : 'text-slate-500 hover:bg-slate-50'}`}
+                className={`px-3 py-1.5 rounded-sm font-medium transition-colors ${mapMetric === 'allocation' ? 'bg-palegreen text-forest-deep' : 'text-mutedText hover:bg-white'}`}
               >
                 Allocation
               </button>
               <button 
                 onClick={() => setMapMetric('risk')}
-                className={`px-3 py-1.5 rounded-sm font-medium transition-colors ${mapMetric === 'risk' ? 'bg-red-100 text-red-700' : 'text-slate-500 hover:bg-slate-50'}`}
+                className={`px-3 py-1.5 rounded-sm font-medium transition-colors ${mapMetric === 'risk' ? 'bg-red-100 text-red-700' : 'text-mutedText hover:bg-white'}`}
               >
                 Risk Signals
               </button>
               <button 
                 onClick={() => setMapMetric('members')}
-                className={`px-3 py-1.5 rounded-sm font-medium transition-colors ${mapMetric === 'members' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`}
+                className={`px-3 py-1.5 rounded-sm font-medium transition-colors ${mapMetric === 'members' ? 'bg-palegreen text-forest-deep' : 'text-mutedText hover:bg-white'}`}
               >
                 Members
               </button>
@@ -230,23 +230,23 @@ export function Geographic() {
                 />
               </MapContainer>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-slate-400">
-                <Loader2 className="w-8 h-8 animate-spin mb-3 text-slate-300" />
+              <div className="h-full flex flex-col items-center justify-center text-mutedText">
+                <Loader2 className="w-8 h-8 animate-spin mb-3 text-mutedText" />
                 <p>Loading Geographic Bounds...</p>
               </div>
             )}
 
             {/* Legend Overlay */}
-            <div className="absolute bottom-4 left-4 bg-white/90 p-3 rounded-md shadow-sm border border-slate-200 text-xs backdrop-blur-sm z-[1000]">
-              <div className="font-bold text-slate-700 mb-2 capitalize">{mapMetric} Intensity</div>
+            <div className="absolute bottom-4 left-4 bg-white/90 p-3 rounded-md shadow-sm border border-brandBorder text-xs backdrop-blur-sm z-[1000]">
+              <div className="font-bold text-charcoal mb-2 capitalize">{mapMetric} Intensity</div>
               <div className="flex items-center gap-2">
-                <span className="text-slate-500">Low</span>
+                <span className="text-mutedText">Low</span>
                 <div className={`w-24 h-3 rounded-full bg-gradient-to-r ${
                   mapMetric === 'allocation' ? 'from-blue-100 to-blue-700' : 
                   mapMetric === 'risk' ? 'from-red-100 to-red-700' : 
                   'from-emerald-100 to-emerald-700'
                 }`}></div>
-                <span className="text-slate-500">High</span>
+                <span className="text-mutedText">High</span>
               </div>
             </div>
           </div>
@@ -255,59 +255,59 @@ export function Geographic() {
         {/* Intelligence Side Panel */}
         <div className="w-full lg:w-1/3 flex flex-col gap-6">
           {selectedStateData ? (
-            <div className="bg-white border border-slate-200 rounded-lg shadow-sm flex flex-col">
-              <div className="p-4 border-b border-slate-200 bg-slate-50">
+            <div className="bg-white border border-brandBorder rounded-lg shadow-sm flex flex-col">
+              <div className="p-4 border-b border-brandBorder bg-white">
                 <div className="flex justify-between items-center mb-1">
-                  <h2 className="font-bold text-lg text-slate-900">{selectedStateData.state}</h2>
-                  <button onClick={() => setSelectedState(null)} className="text-xs text-blue-600 hover:underline">Clear</button>
+                  <h2 className="font-bold text-lg text-charcoal">{selectedStateData.state}</h2>
+                  <button onClick={() => setSelectedState(null)} className="text-xs text-forest-primary hover:underline">Clear</button>
                 </div>
-                <p className="text-xs text-slate-500 uppercase tracking-wider font-bold">State Intelligence Profile</p>
+                <p className="text-xs text-mutedText uppercase tracking-wider font-bold">State Intelligence Profile</p>
               </div>
               <div className="p-6 space-y-6">
                 <div>
                   <div className="flex justify-between items-end mb-1">
-                    <div className="text-sm text-slate-500">Total Allocation</div>
-                    <div className="text-xl font-bold text-slate-900">₹{(selectedStateData.allocation / 10000000).toFixed(2)} Cr</div>
+                    <div className="text-sm text-mutedText">Total Allocation</div>
+                    <div className="text-xl font-bold text-charcoal">₹{(selectedStateData.allocation / 10000000).toFixed(2)} Cr</div>
                   </div>
-                  <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                    <div className="bg-blue-600 h-full" style={{width: `${(selectedStateData.allocation / maxValues.allocation) * 100}%`}}></div>
+                  <div className="w-full bg-palegreen h-2 rounded-full overflow-hidden">
+                    <div className="bg-forest-primary h-full" style={{width: `${(selectedStateData.allocation / maxValues.allocation) * 100}%`}}></div>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between items-end mb-1">
-                    <div className="text-sm text-slate-500">Risk Signals</div>
+                    <div className="text-sm text-mutedText">Risk Signals</div>
                     <div className="text-xl font-bold text-red-600">{selectedStateData.riskSignals}</div>
                   </div>
-                  <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                    <div className="bg-red-500 h-full" style={{width: `${(selectedStateData.riskSignals / maxValues.risk) * 100}%`}}></div>
+                  <div className="w-full bg-palegreen h-2 rounded-full overflow-hidden">
+                    <div className="bg-risk-critical h-full" style={{width: `${(selectedStateData.riskSignals / maxValues.risk) * 100}%`}}></div>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between items-end mb-1">
-                    <div className="text-sm text-slate-500">Members of Parliament</div>
-                    <div className="text-xl font-bold text-emerald-600">{selectedStateData.membersCount}</div>
+                    <div className="text-sm text-mutedText">Members of Parliament</div>
+                    <div className="text-xl font-bold text-forest-primary">{selectedStateData.membersCount}</div>
                   </div>
-                  <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                    <div className="bg-emerald-500 h-full" style={{width: `${(selectedStateData.membersCount / maxValues.members) * 100}%`}}></div>
+                  <div className="w-full bg-palegreen h-2 rounded-full overflow-hidden">
+                    <div className="bg-forest-primary h-full" style={{width: `${(selectedStateData.membersCount / maxValues.members) * 100}%`}}></div>
                   </div>
                 </div>
                 
-                <div className="pt-4 border-t border-slate-100">
-                  <button onClick={() => navigate('/dashboard/districts')} className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-blue-600 text-sm font-semibold rounded-md border border-slate-200 transition-colors flex items-center justify-center gap-1">
+                <div className="pt-4 border-t border-brandBorder">
+                  <button onClick={() => navigate('/dashboard/districts')} className="w-full py-2 bg-white hover:bg-palegreen text-forest-primary text-sm font-semibold rounded-md border border-brandBorder transition-colors flex items-center justify-center gap-1">
                     View District Analytics <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="bg-slate-50 border border-slate-200 border-dashed rounded-lg shadow-sm flex flex-col items-center justify-center p-8 text-center h-full min-h-[300px]">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-slate-300 mb-4 shadow-sm">
+            <div className="bg-white border border-brandBorder border-dashed rounded-lg shadow-sm flex flex-col items-center justify-center p-8 text-center h-full min-h-[300px]">
+              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-mutedText mb-4 shadow-sm">
                 <MapIcon className="w-8 h-8" />
               </div>
-              <h3 className="font-bold text-slate-700 mb-1">Select a State</h3>
-              <p className="text-sm text-slate-500">
+              <h3 className="font-bold text-charcoal mb-1">Select a State</h3>
+              <p className="text-sm text-mutedText">
                 Click on any state in the map to view detailed geographic intelligence, risk distributions, and financial metrics.
               </p>
             </div>
@@ -316,22 +316,22 @@ export function Geographic() {
       </div>
       
       {/* State Ranking Chart */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-4">
-        <h2 className="font-bold text-slate-800 mb-4 flex items-center gap-2 text-sm">
-          <BarChart2 className="w-4 h-4 text-slate-400" />
+      <div className="bg-white border border-brandBorder rounded-lg shadow-sm p-4">
+        <h2 className="font-bold text-charcoal mb-4 flex items-center gap-2 text-sm">
+          <BarChart2 className="w-4 h-4 text-mutedText" />
           State Allocation Comparison
         </h2>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={enrichedAnalytics.slice(0, 15)} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#D8D5CB" />
               <XAxis dataKey="state" tick={{fontSize: 10}} interval={0} angle={-45} textAnchor="end" height={60} />
               <YAxis tickFormatter={(v) => `₹${(v / 10000000).toFixed(0)}Cr`} tick={{fontSize: 11}} width={80} />
               <Tooltip 
                 formatter={(value: any) => [`₹${(Number(value) / 10000000).toFixed(2)} Cr`, 'Allocation']}
                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
               />
-              <Bar dataKey="allocation" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="allocation" fill="#356B52" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

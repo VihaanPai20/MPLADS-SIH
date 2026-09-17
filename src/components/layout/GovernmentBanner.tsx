@@ -97,7 +97,7 @@ export function GovernmentBanner() {
   };
 
   return (
-    <div className="w-full bg-gov-pattern text-white relative overflow-hidden border-b border-[#0B2945]" style={{ backgroundColor: '#123F68' }}>
+    <div className="w-full bg-forest-dark bg-gov-pattern text-white relative overflow-hidden border-b border-forest-primary">
       {/* Background Subtle Watermark Overlay */}
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#FFFFFF_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
 
@@ -109,10 +109,10 @@ export function GovernmentBanner() {
             {/* Breadcrumb Trail */}
             <nav className="flex items-center space-x-2 text-xs font-semibold text-amber-400 mb-2">
               <span>Home</span>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+              <ChevronRight className="w-3.5 h-3.5 text-white/70" />
               <span>{meta.category}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-              <span className="text-slate-200 underline decoration-amber-400 underline-offset-4">{meta.title.split(' ')[0]} View</span>
+              <ChevronRight className="w-3.5 h-3.5 text-white/70" />
+              <span className="text-white/70 underline decoration-amber-400 underline-offset-4">{meta.title.split(' ')[0]} View</span>
             </nav>
 
             {/* Page Main Title */}
@@ -121,17 +121,17 @@ export function GovernmentBanner() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xs sm:text-sm text-slate-200 mt-2 font-normal max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-white/70 mt-2 font-normal max-w-2xl leading-relaxed">
               {meta.subtitle}
             </p>
 
             {/* Authority Role Indicator */}
             <div className="mt-4 flex items-center space-x-2">
-              <span className="bg-[#0B2945] text-amber-400 text-[11px] font-bold px-3 py-1 rounded border border-amber-500/30 shadow-sm flex items-center">
-                <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-emerald-400" />
+              <span className="bg-forest-deep text-amber-400 text-[11px] font-bold px-3 py-1 rounded border border-amber-500/30 shadow-sm flex items-center">
+                <ShieldCheck className="w-3.5 h-3.5 mr-1.5 text-forest-secondary" />
                 ACTIVE AUTHORITY: {role.toUpperCase()}
               </span>
-              <span className="text-xs text-slate-300">
+              <span className="text-xs text-white/70">
                 MoSPI Data Integration Active • Live Telemetry
               </span>
             </div>

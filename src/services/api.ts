@@ -64,21 +64,33 @@ export async function getDataQualityStats(houseSelection: GlobalHouseSelection) 
   if (total === 0) return { records: 0, missingFields: 0, potentialDuplicates: 0, qualityScore: 100 };
 
   let missingFields = 0;
-  let duplicates = 0;
-  const names = new Set();
 
   for (const mp of members) {
-    if (!mp.name || !mp.state) missingFields++;
-    if (names.has(mp.name.toLowerCase())) duplicates++;
-    names.add(mp.name.toLowerCase());
+    // Stricter check for missing fields, but contextual to the house
+    const isLokSabha = mp.house === 'Lok Sabha';
+    const isMissingBaseFields = !mp.name || !mp.state || mp.allocatedAmount === undefined;
+    const isMissingConstituency = isLokSabha && !mp.constituency;
+
+    if (isMissingBaseFields || isMissingConstituency) {
+      missingFields++;
+    }
   }
 
-  const qualityScore = 100 - ((missingFields / total) * 100) - ((duplicates / total) * 100);
+  // Fetch real-time ML data for accurate duplicate metrics
+  const mlRisks = await getMLRiskAnalysis(houseSelection);
+  let duplicateCount = 0;
+  for (const risk of mlRisks) {
+    if (risk.is_duplicate) duplicateCount++;
+  }
+
+  const missingFieldsPercentage = (missingFields / total) * 100;
+  const potentialDuplicatesPercentage = (duplicateCount / total) * 100;
+  const qualityScore = 100 - missingFieldsPercentage - potentialDuplicatesPercentage;
 
   return {
     records: total,
-    missingFields: (missingFields / total) * 100,
-    potentialDuplicates: (duplicates / total) * 100,
+    missingFields: missingFieldsPercentage,
+    potentialDuplicates: potentialDuplicatesPercentage,
     qualityScore: Math.max(0, qualityScore)
   };
 }

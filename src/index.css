@@ -4,25 +4,32 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-  }
+    --forest-primary: #356B52;
+    --forest-deep: #234F3D;
+    --forest-dark: #1D3F31;
+    --forest-secondary: #527A63;
+    --sage: #78927B;
+    --sage-light: #D9E3D8;
+    --green-pale: #E9EFE8;
+    --sand: #E8DFCC;
+    --cream: #F6F3EA;
+    --white: #FFFFFF;
+    --text-primary: #1A1D1B;
+    --text-secondary: #4B524E;
+    --text-muted: #6C7470;
+    --border: #D8D5CB;
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --background: var(--cream);
+    --foreground: var(--text-primary);
   }
 }
 
 @layer base {
   * {
-    @apply border-slate-200;
+    border-color: var(--border);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }

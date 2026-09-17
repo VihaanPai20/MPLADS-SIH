@@ -19,18 +19,18 @@ export function AnalyticsHub() {
       path: '/dashboard/project-execution',
       icon: FolderKanban,
       description: 'Physical vs financial progress evaluation and bottleneck diagnosis across regions.',
-      color: 'text-emerald-600',
-      bg: 'bg-emerald-50',
-      border: 'border-emerald-200'
+      color: 'text-forest-primary',
+      bg: 'bg-palegreen',
+      border: 'border-brandBorder'
     },
     {
       title: 'Geographic Map',
       path: '/dashboard/geographic',
       icon: Map,
       description: 'Interactive spatial analytics of MPLADS works across Indian states and constituencies.',
-      color: 'text-purple-600',
-      bg: 'bg-purple-50',
-      border: 'border-purple-200'
+      color: 'text-forest-secondary',
+      bg: 'bg-palegreen',
+      border: 'border-sage'
     },
     {
       title: 'District Intelligence',
@@ -55,8 +55,8 @@ export function AnalyticsHub() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Analytics Intelligence Hub</h1>
-        <p className="text-slate-500 mt-1 text-sm max-w-2xl">
+        <h1 className="text-2xl font-bold text-charcoal">Analytics Intelligence Hub</h1>
+        <p className="text-mutedText mt-1 text-sm max-w-2xl">
           Centralized access to specialized operational, financial, and geographic telemetry models.
         </p>
       </div>
@@ -68,18 +68,18 @@ export function AnalyticsHub() {
             <div 
               key={i}
               onClick={() => navigate(mod.path)}
-              className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 cursor-pointer hover:shadow-md transition-all hover:border-slate-300 group flex flex-col h-full"
+              className="bg-white rounded-xl border border-brandBorder shadow-sm p-6 cursor-pointer hover:shadow-md transition-all hover:border-brandBorder group flex flex-col h-full"
             >
               <div className={`w-12 h-12 rounded-lg ${mod.bg} ${mod.border} border flex items-center justify-center mb-4`}>
                 <Icon className={`w-6 h-6 ${mod.color}`} />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">
+              <h3 className="text-lg font-bold text-charcoal mb-2 group-hover:text-forest-deep transition-colors">
                 {mod.title}
               </h3>
-              <p className="text-sm text-slate-600 mb-6 flex-1">
+              <p className="text-sm text-secondaryText mb-6 flex-1">
                 {mod.description}
               </p>
-              <div className="flex items-center text-sm font-semibold text-blue-600 group-hover:text-blue-800">
+              <div className="flex items-center text-sm font-semibold text-forest-primary group-hover:text-forest-deep">
                 Launch Module <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>

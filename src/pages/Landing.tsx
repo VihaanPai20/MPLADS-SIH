@@ -33,20 +33,20 @@ export function Landing() {
   }, [slides.length]);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-white flex flex-col font-sans">
       
       {/* Official Top Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+      <header className="bg-white border-b border-brandBorder sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
             {/* Mock Emblem/Logo placeholder */}
             <div className="w-12 h-16 bg-contain bg-center bg-no-repeat" style={{ backgroundImage: 'url("https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg")' }} />
             <div>
-              <h1 className="text-lg md:text-xl font-bold text-slate-900 tracking-tight leading-tight uppercase">
+              <h1 className="text-lg md:text-xl font-bold text-charcoal tracking-tight leading-tight uppercase">
                 Government of India <br className="md:hidden" />
                 <span className="text-[#1e3a8a]">Ministry of Statistics and Programme Implementation</span>
               </h1>
-              <p className="text-xs text-slate-500 hidden md:block">Infrastructure & Project Monitoring Division (IPMD)</p>
+              <p className="text-xs text-mutedText hidden md:block">Infrastructure & Project Monitoring Division (IPMD)</p>
             </div>
           </div>
           <button 
@@ -58,7 +58,7 @@ export function Landing() {
           </button>
         </div>
         {/* Navigation Ribbon */}
-        <div className="bg-[#0f172a] text-slate-300 text-xs py-2 px-8 flex gap-6 overflow-x-auto whitespace-nowrap">
+        <div className="bg-forest-dark text-mutedText text-xs py-2 px-8 flex gap-6 overflow-x-auto whitespace-nowrap">
           <button onClick={() => navigate('/dashboard')} className="hover:text-white font-medium flex items-center gap-1"><Building2 className="w-3 h-3"/> Overview</button>
           <button onClick={() => navigate('/dashboard/risk-analysis')} className="hover:text-white font-medium flex items-center gap-1"><Cpu className="w-3 h-3"/> ML Analytics</button>
           <button onClick={() => navigate('/dashboard/alerts')} className="hover:text-white font-medium flex items-center gap-1"><ShieldAlert className="w-3 h-3"/> Early Warning Center <span className="bg-orange-500 text-white px-1.5 rounded-full text-[10px]">Active</span></button>
@@ -69,7 +69,7 @@ export function Landing() {
       <main className="flex-grow">
         
         {/* Hero Slider Section */}
-        <section className="relative h-[500px] w-full overflow-hidden bg-slate-900">
+        <section className="relative h-[500px] w-full overflow-hidden bg-forest-deep">
           {slides.map((slide, index) => (
             <div 
               key={index}
@@ -85,7 +85,7 @@ export function Landing() {
                 <h2 className="text-4xl md:text-5xl font-black tracking-wider text-[#38bdf8] mb-4 drop-shadow-lg uppercase">
                   {slide.title}
                 </h2>
-                <p className="text-xl md:text-2xl font-medium max-w-2xl text-slate-200">
+                <p className="text-xl md:text-2xl font-medium max-w-2xl text-mutedText">
                   {slide.subtitle}
                 </p>
               </div>
@@ -119,34 +119,34 @@ export function Landing() {
         {/* Dark Blue Statistics Banner (Hardcoded generic high-level dataset stats) */}
         <section className="bg-gradient-to-b from-[#0f172a] to-[#1e3a8a] py-16 text-white text-center border-b-4 border-[#38bdf8]">
           <h2 className="text-3xl font-bold mb-2">National Statistics Office, India</h2>
-          <p className="text-slate-300 mb-12">Shaping India's Infrastructure Future with Data-Driven Decision Making</p>
+          <p className="text-mutedText mb-12">Shaping India's Infrastructure Future with Data-Driven Decision Making</p>
           
           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
             <div className="flex flex-col items-center">
               <span className="text-4xl font-bold text-[#facc15] mb-2">543</span>
-              <span className="text-sm font-medium text-slate-300">Lok Sabha Constituencies</span>
+              <span className="text-sm font-medium text-mutedText">Lok Sabha Constituencies</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-4xl font-bold text-[#facc15] mb-2">28</span>
-              <span className="text-sm font-medium text-slate-300">State Nodal Authorities</span>
+              <span className="text-sm font-medium text-mutedText">State Nodal Authorities</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-4xl font-bold text-[#facc15] mb-2">₹39,500 Cr</span>
-              <span className="text-sm font-medium text-slate-300">Lifetime Funds Disbursed</span>
+              <span className="text-sm font-medium text-mutedText">Lifetime Funds Disbursed</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-4xl font-bold text-[#facc15] mb-2">94%</span>
-              <span className="text-sm font-medium text-slate-300">Digital Audit Compliance</span>
+              <span className="text-sm font-medium text-mutedText">Digital Audit Compliance</span>
             </div>
           </div>
         </section>
 
         {/* Flipping Cards Section - Themes */}
-        <section className="py-20 px-4 bg-slate-100">
+        <section className="py-20 px-4 bg-palegreen">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-2 mb-10">
-              <Building2 className="w-6 h-6 text-slate-600" />
-              <h3 className="text-2xl font-bold text-slate-800">Platform Modules & Analytics</h3>
+              <Building2 className="w-6 h-6 text-secondaryText" />
+              <h3 className="text-2xl font-bold text-charcoal">Platform Modules & Analytics</h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 perspective-1000">
@@ -155,16 +155,16 @@ export function Landing() {
               <div className="group h-80 cursor-pointer [perspective:1000px]">
                 <div className="relative w-full h-full text-center transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-lg rounded-xl">
                   {/* Front */}
-                  <div className="absolute w-full h-full bg-white rounded-xl flex flex-col items-center justify-center p-6 border border-slate-200 [backface-visibility:hidden]">
-                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-6">
-                      <Cpu className="w-8 h-8 text-blue-600" />
+                  <div className="absolute w-full h-full bg-white rounded-xl flex flex-col items-center justify-center p-6 border border-brandBorder [backface-visibility:hidden]">
+                    <div className="w-16 h-16 bg-palegreen rounded-full flex items-center justify-center mb-6">
+                      <Cpu className="w-8 h-8 text-forest-primary" />
                     </div>
-                    <h4 className="text-lg font-bold text-slate-800 mb-2">Machine Learning Risk Engine</h4>
-                    <p className="text-sm text-slate-500">Predictive analysis using Isolation Forests to detect financial anomalies.</p>
+                    <h4 className="text-lg font-bold text-charcoal mb-2">Machine Learning Risk Engine</h4>
+                    <p className="text-sm text-mutedText">Predictive analysis using Isolation Forests to detect financial anomalies.</p>
                   </div>
                   {/* Back */}
                   <div className="absolute w-full h-full bg-[#1e3a8a] text-white rounded-xl flex flex-col items-center justify-center p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <h4 className="text-lg font-bold mb-4 border-b border-blue-400 pb-2">Technical Details</h4>
+                    <h4 className="text-lg font-bold mb-4 border-b border-brandBorder pb-2">Technical Details</h4>
                     <ul className="text-sm text-left space-y-2">
                       <li>• Unsupervised Isolation Forest</li>
                       <li>• Z-Score Cost Variations</li>
@@ -178,12 +178,12 @@ export function Landing() {
               <div className="group h-80 cursor-pointer [perspective:1000px]">
                 <div className="relative w-full h-full text-center transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-lg rounded-xl">
                   {/* Front */}
-                  <div className="absolute w-full h-full bg-white rounded-xl flex flex-col items-center justify-center p-6 border border-slate-200 [backface-visibility:hidden]">
+                  <div className="absolute w-full h-full bg-white rounded-xl flex flex-col items-center justify-center p-6 border border-brandBorder [backface-visibility:hidden]">
                     <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-6">
                       <ShieldAlert className="w-8 h-8 text-indigo-600" />
                     </div>
-                    <h4 className="text-lg font-bold text-slate-800 mb-2">NLP Duplicate Detection</h4>
-                    <p className="text-sm text-slate-500">TF-IDF & Cosine Similarity mapping to prevent overlapping infrastructure proposals.</p>
+                    <h4 className="text-lg font-bold text-charcoal mb-2">NLP Duplicate Detection</h4>
+                    <p className="text-sm text-mutedText">TF-IDF & Cosine Similarity mapping to prevent overlapping infrastructure proposals.</p>
                   </div>
                   {/* Back */}
                   <div className="absolute w-full h-full bg-indigo-700 text-white rounded-xl flex flex-col items-center justify-center p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
@@ -201,16 +201,16 @@ export function Landing() {
               <div className="group h-80 cursor-pointer [perspective:1000px]">
                 <div className="relative w-full h-full text-center transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-lg rounded-xl">
                   {/* Front */}
-                  <div className="absolute w-full h-full bg-white rounded-xl flex flex-col items-center justify-center p-6 border border-slate-200 [backface-visibility:hidden]">
-                    <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-6">
-                      <CheckCircle className="w-8 h-8 text-emerald-600" />
+                  <div className="absolute w-full h-full bg-white rounded-xl flex flex-col items-center justify-center p-6 border border-brandBorder [backface-visibility:hidden]">
+                    <div className="w-16 h-16 bg-palegreen rounded-full flex items-center justify-center mb-6">
+                      <CheckCircle className="w-8 h-8 text-forest-primary" />
                     </div>
-                    <h4 className="text-lg font-bold text-slate-800 mb-2">Role-Based Access (RBAC)</h4>
-                    <p className="text-sm text-slate-500">Hierarchical data views for Ministries, State Nodal Authorities, and District Collectors.</p>
+                    <h4 className="text-lg font-bold text-charcoal mb-2">Role-Based Access (RBAC)</h4>
+                    <p className="text-sm text-mutedText">Hierarchical data views for Ministries, State Nodal Authorities, and District Collectors.</p>
                   </div>
                   {/* Back */}
-                  <div className="absolute w-full h-full bg-emerald-700 text-white rounded-xl flex flex-col items-center justify-center p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <h4 className="text-lg font-bold mb-4 border-b border-emerald-400 pb-2">Governance Flow</h4>
+                  <div className="absolute w-full h-full bg-forest-deep text-white rounded-xl flex flex-col items-center justify-center p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <h4 className="text-lg font-bold mb-4 border-b border-forest-secondary pb-2">Governance Flow</h4>
                     <ul className="text-sm text-left space-y-2">
                       <li>• JWT-Secured Routes</li>
                       <li>• Dynamic Data Scoping</li>
@@ -227,8 +227,8 @@ export function Landing() {
       </main>
       
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 text-center">
-        <p className="text-xs text-slate-500 font-medium">
+      <footer className="bg-white border-t border-brandBorder py-6 text-center">
+        <p className="text-xs text-mutedText font-medium">
           © {new Date().getFullYear()} Government of India. Ministry of Statistics and Programme Implementation.
         </p>
       </footer>

@@ -50,13 +50,13 @@ export function Projects() {
     };
   }, [enrichedPortfolios]);
 
-  if (loading || riskLoading) return <div className="p-8 text-slate-500">Loading project monitoring engine...</div>;
+  if (loading || riskLoading) return <div className="p-8 text-mutedText">Loading project monitoring engine...</div>;
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Project Monitoring</h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <h1 className="text-2xl font-bold text-charcoal">Project Monitoring</h1>
+        <p className="text-mutedText mt-1 text-sm">
           Monitor MPLADS works, financial progress, execution status and emerging risk signals.
         </p>
       </div>
@@ -69,42 +69,42 @@ export function Projects() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Total Portfolios</div>
-          <div className="text-xl font-bold text-slate-900">{topKPIs.total.toLocaleString()}</div>
+        <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm">
+          <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">Total Portfolios</div>
+          <div className="text-xl font-bold text-charcoal">{topKPIs.total.toLocaleString()}</div>
         </div>
-        <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Active Portfolios</div>
-          <div className="text-xl font-bold text-blue-700">{topKPIs.active.toLocaleString()}</div>
+        <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm">
+          <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">Active Portfolios</div>
+          <div className="text-xl font-bold text-forest-deep">{topKPIs.active.toLocaleString()}</div>
         </div>
-        <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-red-500">
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">High Risk Portfolios</div>
+        <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm border-l-4 border-l-red-500">
+          <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">High Risk Portfolios</div>
           <div className="text-xl font-bold text-red-600">{topKPIs.atRisk.toLocaleString()}</div>
         </div>
-        <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Total Sanctioned</div>
-          <div className="text-xl font-bold text-slate-900">₹{(topKPIs.totalSanctioned / 10000000).toFixed(0)} Cr</div>
+        <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm">
+          <div className="text-[10px] font-bold text-mutedText uppercase tracking-wider mb-1">Total Sanctioned</div>
+          <div className="text-xl font-bold text-charcoal">₹{(topKPIs.totalSanctioned / 10000000).toFixed(0)} Cr</div>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-        <div className="p-4 border-b border-slate-200 bg-slate-50 flex flex-col sm:flex-row gap-4 justify-between items-center relative">
+      <div className="bg-white rounded-lg border border-brandBorder shadow-sm overflow-hidden flex flex-col">
+        <div className="p-4 border-b border-brandBorder bg-white flex flex-col sm:flex-row gap-4 justify-between items-center relative">
           <div className="relative w-full sm:w-96">
-            <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-mutedText" />
             <input 
               type="text" 
               placeholder="Search portfolios, states, constituencies..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-brandBorder rounded-md focus:outline-none focus:ring-2 focus:ring-forest-primary text-sm"
             />
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Filter className="w-4 h-4 text-slate-400" />
+            <Filter className="w-4 h-4 text-mutedText" />
             <select 
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="border border-slate-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-brandBorder rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-forest-primary"
             >
               <option value="ALL">All Statuses</option>
               <option value="ONGOING">Ongoing</option>
@@ -114,8 +114,8 @@ export function Projects() {
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600 min-w-[1000px]">
-            <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+          <table className="w-full text-left text-sm text-secondaryText min-w-[1000px]">
+            <thead className="bg-white text-charcoal font-bold border-b border-brandBorder text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-4">Project ID</th>
                 <th className="px-6 py-4 w-64">Work / Project Name</th>
@@ -126,16 +126,16 @@ export function Projects() {
                 <th className="px-6 py-4 text-center">Risk</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-neutral-100">
               {enrichedPortfolios.slice(0, 100).map(p => (
-                <tr key={p.id} className="hover:bg-slate-50 transition-colors cursor-pointer">
-                  <td className="px-6 py-4 font-mono text-xs text-slate-500">{p.id}</td>
-                  <td className="px-6 py-4 font-semibold text-slate-900">{p.name}</td>
+                <tr key={p.id} className="hover:bg-white transition-colors cursor-pointer">
+                  <td className="px-6 py-4 font-mono text-xs text-mutedText">{p.id}</td>
+                  <td className="px-6 py-4 font-semibold text-charcoal">{p.name}</td>
                   <td className="px-6 py-4">{p.state}</td>
                   <td className="px-6 py-4">{p.constituency}</td>
-                  <td className="px-6 py-4 text-right font-bold text-blue-700">₹{(p.sanctioned / 10000000).toFixed(2)} Cr</td>
+                  <td className="px-6 py-4 text-right font-bold text-forest-deep">₹{(p.sanctioned / 10000000).toFixed(2)} Cr</td>
                   <td className="px-6 py-4 text-center">
-                    <span className={`px-2 py-1 rounded-md text-xs font-bold ${p.status === 'AT RISK' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}`}>
+                    <span className={`px-2 py-1 rounded-md text-xs font-bold ${p.status === 'AT RISK' ? 'bg-red-100 text-red-700' : 'bg-palegreen text-forest-deep'}`}>
                       {p.status}
                     </span>
                   </td>
@@ -143,13 +143,13 @@ export function Projects() {
                     {p.risk === 'CRITICAL' && <span className="text-red-600 font-bold">CRITICAL</span>}
                     {p.risk === 'HIGH' && <span className="text-orange-600 font-bold">HIGH</span>}
                     {p.risk === 'MODERATE' && <span className="text-yellow-600 font-bold">MODERATE</span>}
-                    {p.risk === 'LOW' && <span className="text-green-600 font-bold">LOW</span>}
+                    {p.risk === 'LOW' && <span className="text-risk-low font-bold">LOW</span>}
                   </td>
                 </tr>
               ))}
               {enrichedPortfolios.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={7} className="px-6 py-12 text-center text-mutedText">
                     No portfolios match your filters.
                   </td>
                 </tr>
@@ -158,7 +158,7 @@ export function Projects() {
           </table>
           
           {enrichedPortfolios.length > 100 && (
-            <div className="p-4 border-t border-slate-200 text-center text-xs text-slate-500 bg-slate-50">
+            <div className="p-4 border-t border-brandBorder text-center text-xs text-mutedText bg-white">
               Showing first 100 results. Use filters to narrow your search.
             </div>
           )}

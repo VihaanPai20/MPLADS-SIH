@@ -146,13 +146,13 @@ export function Assistant() {
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)]">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Intelligence Assistant</h1>
-        <p className="text-slate-500 mt-1 text-sm mb-6 flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-blue-500" /> Fully integrated data-aware analysis engine.
+        <h1 className="text-2xl font-bold text-charcoal">Intelligence Assistant</h1>
+        <p className="text-mutedText mt-1 text-sm mb-6 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-forest-primary" /> Fully integrated data-aware analysis engine.
         </p>
       </div>
 
-      <div className="flex-1 bg-white border border-slate-200 rounded-lg shadow-sm flex flex-col overflow-hidden">
+      <div className="flex-1 bg-white border border-brandBorder rounded-lg shadow-sm flex flex-col overflow-hidden">
         <div 
           ref={scrollRef}
           className="flex-1 overflow-y-auto p-6 space-y-6"
@@ -161,19 +161,19 @@ export function Assistant() {
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`flex max-w-3xl gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 ${
-                  msg.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-slate-900 text-white shadow-md'
+                  msg.role === 'user' ? 'bg-palegreen text-forest-primary' : 'bg-forest-deep text-white shadow-md'
                 }`}>
                   {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
                 </div>
                 <div className={`p-4 rounded-xl text-sm leading-relaxed shadow-sm ${
                   msg.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-tr-none' 
-                    : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none whitespace-pre-wrap'
+                    ? 'bg-forest-primary text-white rounded-tr-none' 
+                    : 'bg-white border border-brandBorder text-charcoal rounded-tl-none whitespace-pre-wrap'
                 }`}>
                   {/* Simple bold parsing for the assistant */}
                   {msg.role === 'assistant' ? (
                     <div dangerouslySetInnerHTML={{ 
-                      __html: msg.content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900 font-bold">$1</strong>') 
+                      __html: msg.content.replace(/\*\*(.*?)\*\*/g, '<strong class="text-charcoal font-bold">$1</strong>') 
                     }} />
                   ) : (
                     msg.content
@@ -184,7 +184,7 @@ export function Assistant() {
           ))}
         </div>
         
-        <div className="p-4 bg-slate-50 border-t border-slate-200">
+        <div className="p-4 bg-white border-t border-brandBorder">
           <div className="flex gap-2">
             <input 
               type="text" 
@@ -192,22 +192,22 @@ export function Assistant() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSend()}
               placeholder="Ask about high-risk constituencies, duplicate portfolios, or anomalies..."
-              className="flex-1 border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm shadow-inner"
+              className="flex-1 border border-brandBorder rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest-primary focus:border-transparent text-sm shadow-inner"
             />
             <button 
               onClick={handleSend}
-              className="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-md font-semibold flex items-center transition-colors shadow-sm"
+              className="bg-forest-deep hover:bg-forest-deep text-white px-5 py-2 rounded-md font-semibold flex items-center transition-colors shadow-sm"
             >
               <Send className="w-4 h-4 mr-2" />
               Analyze
             </button>
           </div>
-          <div className="mt-3 text-[11px] text-slate-500 flex items-center justify-between">
+          <div className="mt-3 text-[11px] text-mutedText flex items-center justify-between">
             <div className="flex items-center gap-1.5">
-              <AlertCircle className="w-3.5 h-3.5 text-blue-500" />
+              <AlertCircle className="w-3.5 h-3.5 text-forest-primary" />
               Querying live ML outputs and normalized state structures. Follows strict NO-FABRICATION integrity rules.
             </div>
-            <div className="text-slate-400 font-mono">v2.0 Data-Aware</div>
+            <div className="text-mutedText font-mono">v2.0 Data-Aware</div>
           </div>
         </div>
       </div>

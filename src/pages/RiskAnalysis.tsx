@@ -43,15 +43,15 @@ export function RiskAnalysis() {
     };
   }, [mlRisk]);
 
-  if (mlLoading || membersLoading) return <div className="p-8 text-slate-500">Loading ML Predictive Engine...</div>;
+  if (mlLoading || membersLoading) return <div className="p-8 text-mutedText">Loading ML Predictive Engine...</div>;
   
   if (!mlRisk || mlRisk.length === 0) {
     return (
-      <div className="p-8 flex flex-col items-center justify-center bg-slate-50 border border-slate-200 rounded-lg h-96">
-        <BrainCircuit className="w-12 h-12 text-slate-300 mb-4" />
-        <h2 className="text-xl font-bold text-slate-700">ML Engine Untrained</h2>
-        <p className="text-slate-500 mt-2 mb-6">The machine learning models require training on the current dataset.</p>
-        <button onClick={train} className="px-6 py-2 bg-blue-600 text-white rounded-md font-semibold shadow hover:bg-blue-700">
+      <div className="p-8 flex flex-col items-center justify-center bg-white border border-brandBorder rounded-lg h-96">
+        <BrainCircuit className="w-12 h-12 text-mutedText mb-4" />
+        <h2 className="text-xl font-bold text-charcoal">ML Engine Untrained</h2>
+        <p className="text-mutedText mt-2 mb-6">The machine learning models require training on the current dataset.</p>
+        <button onClick={train} className="px-6 py-2 bg-forest-primary text-white rounded-md font-semibold shadow hover:bg-forest-deep">
           Initialize & Train ML Models
         </button>
       </div>
@@ -71,17 +71,17 @@ export function RiskAnalysis() {
     <div className="space-y-6">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <BrainCircuit className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-bold text-charcoal flex items-center gap-2">
+            <BrainCircuit className="w-6 h-6 text-forest-primary" />
             Machine Learning Intelligence
           </h1>
-          <p className="text-slate-500 mt-1 text-sm">
+          <p className="text-mutedText mt-1 text-sm">
             Predictive risk modeling utilizing Isolation Forests and TF-IDF similarity.
           </p>
         </div>
         
         {/* ML Status Banner */}
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 rounded-md text-sm font-semibold flex items-center shadow-sm">
+        <div className="bg-palegreen border border-brandBorder text-forest-dark px-4 py-2 rounded-md text-sm font-semibold flex items-center shadow-sm">
           <Activity className="w-4 h-4 mr-2" />
           ML Pipeline: {mlStatus?.status.toUpperCase() || 'ACTIVE'}
         </div>
@@ -91,12 +91,12 @@ export function RiskAnalysis() {
       {mlStatus && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {mlStatus.models.map((m: any, i: number) => (
-            <div key={i} className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center">
+            <div key={i} className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm flex justify-between items-center">
               <div>
-                <div className="font-bold text-slate-800">{m.name}</div>
-                <div className="text-xs text-slate-500">{m.algorithm} • {m.type}</div>
+                <div className="font-bold text-charcoal">{m.name}</div>
+                <div className="text-xs text-mutedText">{m.algorithm} • {m.type}</div>
               </div>
-              <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${m.status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
+              <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${m.status === 'Active' ? 'bg-palegreen text-forest-deep' : 'bg-palegreen text-secondaryText'}`}>
                 {m.status}
               </span>
             </div>
@@ -107,9 +107,9 @@ export function RiskAnalysis() {
       {/* KPIs */}
       {stats && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm text-center">
-            <div className="text-2xl font-bold text-slate-900">{stats.total}</div>
-            <div className="text-xs font-semibold text-slate-500 uppercase mt-1">Records Analyzed</div>
+          <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm text-center">
+            <div className="text-2xl font-bold text-charcoal">{stats.total}</div>
+            <div className="text-xs font-semibold text-mutedText uppercase mt-1">Records Analyzed</div>
           </div>
           <div className="bg-white p-4 rounded-lg border border-red-200 bg-red-50 shadow-sm text-center">
             <div className="text-2xl font-bold text-red-700">{stats.critical}</div>
@@ -124,20 +124,20 @@ export function RiskAnalysis() {
             <div className="text-xs font-semibold text-amber-600 uppercase mt-1">Moderate Risk</div>
           </div>
           <div className="bg-white p-4 rounded-lg border border-green-200 bg-green-50 shadow-sm text-center">
-            <div className="text-2xl font-bold text-green-700">{stats.low}</div>
-            <div className="text-xs font-semibold text-green-600 uppercase mt-1">Low Risk</div>
+            <div className="text-2xl font-bold text-risk-low">{stats.low}</div>
+            <div className="text-xs font-semibold text-risk-low uppercase mt-1">Low Risk</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm text-center">
-            <div className="text-2xl font-bold text-slate-900">{stats.anomalies}</div>
-            <div className="text-xs font-semibold text-slate-500 uppercase mt-1">Anomalies Detected</div>
+          <div className="bg-white p-4 rounded-lg border border-brandBorder shadow-sm text-center">
+            <div className="text-2xl font-bold text-charcoal">{stats.anomalies}</div>
+            <div className="text-xs font-semibold text-mutedText uppercase mt-1">Anomalies Detected</div>
           </div>
         </div>
       )}
 
       {stats && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm lg:col-span-1">
-            <h3 className="text-sm font-bold text-slate-900 uppercase mb-4">Risk Distribution</h3>
+          <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm lg:col-span-1">
+            <h3 className="text-sm font-bold text-charcoal uppercase mb-4">Risk Distribution</h3>
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -159,8 +159,8 @@ export function RiskAnalysis() {
               </ResponsiveContainer>
             </div>
           </div>
-          <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm lg:col-span-2">
-            <h3 className="text-sm font-bold text-slate-900 uppercase mb-4">Predicted Anomaly Types</h3>
+          <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm lg:col-span-2">
+            <h3 className="text-sm font-bold text-charcoal uppercase mb-4">Predicted Anomaly Types</h3>
             {stats.anomalyData.length > 0 ? (
                <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -177,7 +177,7 @@ export function RiskAnalysis() {
                     <Tooltip cursor={{ fill: '#f8fafc' }} />
                     <Bar 
                       dataKey="count" 
-                      fill="#3b82f6" 
+                      fill="#356B52" 
                       radius={[0, 4, 4, 0]} 
                       barSize={40}
                       label={{ position: 'right', fill: '#334155', fontSize: 12, fontWeight: 'bold' }}
@@ -186,7 +186,7 @@ export function RiskAnalysis() {
                 </ResponsiveContainer>
               </div>
             ) : (
-              <div className="h-64 flex items-center justify-center text-slate-400">
+              <div className="h-64 flex items-center justify-center text-mutedText">
                  No anomalies detected by the Isolation Forest model.
               </div>
             )}
@@ -196,14 +196,14 @@ export function RiskAnalysis() {
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* High Risk Table */}
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm flex-1 overflow-hidden">
-          <div className="p-4 border-b border-slate-200 bg-slate-50 flex items-center">
+        <div className="bg-white rounded-lg border border-brandBorder shadow-sm flex-1 overflow-hidden">
+          <div className="p-4 border-b border-brandBorder bg-white flex items-center">
             <ShieldAlert className="w-5 h-5 text-red-600 mr-2" />
-            <h3 className="font-bold text-slate-900">Highest Risk Portfolios</h3>
+            <h3 className="font-bold text-charcoal">Highest Risk Portfolios</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 text-slate-500 border-b border-slate-200">
+              <thead className="bg-white text-mutedText border-b border-brandBorder">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Member / ID</th>
                   <th className="px-4 py-3 font-semibold">State / House</th>
@@ -213,20 +213,20 @@ export function RiskAnalysis() {
                   <th className="px-4 py-3"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-neutral-100">
                 {highRiskMembers.slice(0, 15).map((item: any) => (
                   <tr 
                     key={item.member.id} 
-                    className={`hover:bg-slate-50 cursor-pointer ${selectedRisk?.member.id === item.member.id ? 'bg-blue-50' : ''}`}
+                    className={`hover:bg-white cursor-pointer ${selectedRisk?.member.id === item.member.id ? 'bg-palegreen' : ''}`}
                     onClick={() => setSelectedRisk(item)}
                   >
                     <td className="px-4 py-3">
-                      <div className="font-medium text-slate-900">{item.member.name}</div>
-                      <div className="text-xs text-slate-500">{item.member.id}</div>
+                      <div className="font-medium text-charcoal">{item.member.name}</div>
+                      <div className="text-xs text-mutedText">{item.member.id}</div>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="text-slate-900">{item.member.state}</div>
-                      <div className="text-xs text-slate-500">{item.member.house}</div>
+                      <div className="text-charcoal">{item.member.state}</div>
+                      <div className="text-xs text-mutedText">{item.member.house}</div>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`inline-flex px-2 py-0.5 rounded text-xs font-bold ${
@@ -237,16 +237,16 @@ export function RiskAnalysis() {
                         {item.risk.risk_level}
                       </span>
                     </td>
-                    <td className="px-4 py-3 font-bold text-slate-700">{item.risk.overall_risk_score.toFixed(1)}</td>
-                    <td className="px-4 py-3 text-slate-600 truncate max-w-[150px]">{item.risk.primary_signal || 'General Risk'}</td>
+                    <td className="px-4 py-3 font-bold text-charcoal">{item.risk.overall_risk_score.toFixed(1)}</td>
+                    <td className="px-4 py-3 text-secondaryText truncate max-w-[150px]">{item.risk.primary_signal || 'General Risk'}</td>
                     <td className="px-4 py-3 text-right">
-                      <ChevronRight className="w-4 h-4 text-slate-400 inline" />
+                      <ChevronRight className="w-4 h-4 text-mutedText inline" />
                     </td>
                   </tr>
                 ))}
                 {highRiskMembers.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
+                    <td colSpan={6} className="px-4 py-8 text-center text-mutedText">
                       No high risk records found.
                     </td>
                   </tr>
@@ -258,10 +258,10 @@ export function RiskAnalysis() {
 
         {/* Risk Detail Panel */}
         {selectedRisk ? (
-          <div className="w-full lg:w-96 bg-white rounded-lg border border-slate-200 shadow-sm flex flex-col shrink-0">
-            <div className="p-4 border-b border-slate-200 bg-slate-900 text-white rounded-t-lg">
+          <div className="w-full lg:w-96 bg-white rounded-lg border border-brandBorder shadow-sm flex flex-col shrink-0">
+            <div className="p-4 border-b border-brandBorder bg-forest-deep text-white rounded-t-lg">
               <h3 className="font-bold text-lg mb-1">{selectedRisk.member.name}</h3>
-              <div className="text-xs text-slate-400 font-medium tracking-wider flex justify-between">
+              <div className="text-xs text-mutedText font-medium tracking-wider flex justify-between">
                 <span>{selectedRisk.member.id}</span>
                 <span>{selectedRisk.member.house}</span>
               </div>
@@ -269,8 +269,8 @@ export function RiskAnalysis() {
             <div className="p-4 flex-1">
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <div className="text-sm text-slate-500 font-bold uppercase tracking-wider mb-1">ML Risk Score</div>
-                  <div className="text-3xl font-bold text-slate-900">{selectedRisk.risk.overall_risk_score.toFixed(1)}</div>
+                  <div className="text-sm text-mutedText font-bold uppercase tracking-wider mb-1">ML Risk Score</div>
+                  <div className="text-3xl font-bold text-charcoal">{selectedRisk.risk.overall_risk_score.toFixed(1)}</div>
                 </div>
                 <div className={`px-3 py-1 rounded-md font-bold ${
                   selectedRisk.risk.risk_level === 'CRITICAL' ? 'bg-red-100 text-red-800 border border-red-200' : 
@@ -281,7 +281,7 @@ export function RiskAnalysis() {
                 </div>
               </div>
 
-              <h4 className="text-sm font-bold text-slate-900 uppercase mb-3 border-b border-slate-100 pb-2">Why was this flagged?</h4>
+              <h4 className="text-sm font-bold text-charcoal uppercase mb-3 border-b border-brandBorder pb-2">Why was this flagged?</h4>
               
               <div className="space-y-4 mb-6">
                 {selectedRisk.risk.signals.map((signal: string, i: number) => {
@@ -303,20 +303,20 @@ export function RiskAnalysis() {
                   }
                   
                   return (
-                    <div key={i} className="bg-slate-50 rounded-md p-3 border border-slate-200">
-                      <div className="flex items-center text-slate-900 font-semibold mb-1">
+                    <div key={i} className="bg-white rounded-md p-3 border border-brandBorder">
+                      <div className="flex items-center text-charcoal font-semibold mb-1">
                         <AlertOctagon className="w-4 h-4 mr-2 text-red-500" />
                         {signal}
                       </div>
-                      <p className="text-sm text-slate-600 mb-2">{explanation}</p>
+                      <p className="text-sm text-secondaryText mb-2">{explanation}</p>
                     </div>
                   );
                 })}
               </div>
 
-              <h4 className="text-sm font-bold text-slate-900 uppercase mb-3 border-b border-slate-100 pb-2">Recommended Action</h4>
-              <div className="flex items-start text-sm text-slate-700 bg-blue-50 p-3 rounded-md border border-blue-100">
-                <Info className="w-5 h-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
+              <h4 className="text-sm font-bold text-charcoal uppercase mb-3 border-b border-brandBorder pb-2">Recommended Action</h4>
+              <div className="flex items-start text-sm text-charcoal bg-palegreen p-3 rounded-md border border-brandBorder">
+                <Info className="w-5 h-5 text-forest-primary mr-2 shrink-0 mt-0.5" />
                 <p>
                   {selectedRisk.risk.risk_level === 'CRITICAL' 
                     ? "Immediate multi-level audit required. Freeze unreleased tranches pending physical verification of mega-scale or anomalous assets."
@@ -328,10 +328,10 @@ export function RiskAnalysis() {
             </div>
           </div>
         ) : (
-          <div className="w-full lg:w-96 bg-slate-50 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center justify-center p-8 shrink-0 text-center">
-            <ShieldAlert className="w-12 h-12 text-slate-300 mb-4" />
-            <h3 className="font-bold text-slate-400">No Record Selected</h3>
-            <p className="text-sm text-slate-400 mt-2">Select a high-risk record from the table to view its ML explanation.</p>
+          <div className="w-full lg:w-96 bg-white rounded-lg border border-brandBorder shadow-sm flex flex-col items-center justify-center p-8 shrink-0 text-center">
+            <ShieldAlert className="w-12 h-12 text-mutedText mb-4" />
+            <h3 className="font-bold text-mutedText">No Record Selected</h3>
+            <p className="text-sm text-mutedText mt-2">Select a high-risk record from the table to view its ML explanation.</p>
           </div>
         )}
       </div>

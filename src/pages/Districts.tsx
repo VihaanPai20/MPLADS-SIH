@@ -68,7 +68,7 @@ export function Districts() {
     }).sort((a, b) => b.avgRisk - a.avgRisk); // Sort by highest risk first
   }, [members, mlRisk]);
 
-  if (membersLoading || mlLoading) return <div className="p-8 text-slate-500">Loading constituency intelligence...</div>;
+  if (membersLoading || mlLoading) return <div className="p-8 text-mutedText">Loading constituency intelligence...</div>;
 
   const topRisk = constituencyData.slice(0, 10);
   const highRiskCount = constituencyData.filter(c => c.riskLevel === 'HIGH' || c.riskLevel === 'CRITICAL').length;
@@ -78,8 +78,8 @@ export function Districts() {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Constituency Intelligence</h1>
-          <p className="text-slate-500 mt-1 text-sm max-w-2xl">
+          <h1 className="text-2xl font-bold text-charcoal">Constituency Intelligence</h1>
+          <p className="text-mutedText mt-1 text-sm max-w-2xl">
             {role === 'Ministry' || role === 'Administrator' 
               ? 'National constituency-level aggregation of portfolios and aggregated predictive risk.'
               : 'Constituency-level monitoring of projects, expenditure, and execution risk.'}
@@ -90,22 +90,22 @@ export function Districts() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm relative">
-           <div className="absolute top-2 right-2 flex items-center gap-1 text-slate-600 text-[10px] font-bold rounded-sm uppercase bg-slate-100 px-1.5 py-0.5">Actual</div>
-          <div className="text-sm font-bold text-slate-500 uppercase">Constituencies</div>
-          <div className="text-3xl font-bold mt-1 text-slate-900">{constituencyData.length}</div>
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm relative">
+           <div className="absolute top-2 right-2 flex items-center gap-1 text-secondaryText text-[10px] font-bold rounded-sm uppercase bg-palegreen px-1.5 py-0.5">Actual</div>
+          <div className="text-sm font-bold text-mutedText uppercase">Constituencies</div>
+          <div className="text-3xl font-bold mt-1 text-charcoal">{constituencyData.length}</div>
         </div>
         
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm relative">
-           <div className="absolute top-2 right-2 flex items-center gap-1 text-slate-600 text-[10px] font-bold rounded-sm uppercase bg-slate-100 px-1.5 py-0.5">Actual</div>
-          <div className="text-sm font-bold text-slate-500 uppercase">Total Allocation</div>
-          <div className="text-3xl font-bold mt-1 text-blue-700">₹{(totalAllocation / 10000000).toFixed(0)} Cr</div>
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm relative">
+           <div className="absolute top-2 right-2 flex items-center gap-1 text-secondaryText text-[10px] font-bold rounded-sm uppercase bg-palegreen px-1.5 py-0.5">Actual</div>
+          <div className="text-sm font-bold text-mutedText uppercase">Total Allocation</div>
+          <div className="text-3xl font-bold mt-1 text-forest-deep">₹{(totalAllocation / 10000000).toFixed(0)} Cr</div>
         </div>
         
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm relative">
-          <div className="absolute top-2 right-2 flex items-center gap-1 text-blue-600 text-[10px] font-bold rounded-sm uppercase bg-blue-50 px-1.5 py-0.5"><CheckCircle className="w-3 h-3"/> Derived</div>
-          <div className="text-sm font-bold text-slate-500 uppercase">Avg Completion Est.</div>
-          <div className="text-3xl font-bold mt-1 text-slate-900">
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm relative">
+          <div className="absolute top-2 right-2 flex items-center gap-1 text-forest-primary text-[10px] font-bold rounded-sm uppercase bg-palegreen px-1.5 py-0.5"><CheckCircle className="w-3 h-3"/> Derived</div>
+          <div className="text-sm font-bold text-mutedText uppercase">Avg Completion Est.</div>
+          <div className="text-3xl font-bold mt-1 text-charcoal">
             {constituencyData.length > 0 
               ? (constituencyData.reduce((acc, c) => acc + Math.max(10, 95 - c.avgRisk), 0) / constituencyData.length).toFixed(1)
               : 0}%
@@ -122,8 +122,8 @@ export function Districts() {
       
       {/* PREDICTIVE ANALYTICS DASHBOARD */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-900 uppercase mb-4 flex items-center justify-between">
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm">
+          <h3 className="text-sm font-bold text-charcoal uppercase mb-4 flex items-center justify-between">
             Top 10 High-Risk Constituencies
             <span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-[10px] rounded-sm font-bold">PREDICTIVE</span>
           </h3>
@@ -137,37 +137,37 @@ export function Districts() {
                   formatter={(v: any) => [`${Number(v).toFixed(1)}/100`, 'Aggregated Risk Score']}
                   contentStyle={{ fontSize: '12px', borderRadius: '8px' }}
                 />
-                <Bar dataKey="avgRisk" fill="#ea580c" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="avgRisk" fill="#B29145" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 uppercase mb-4 flex items-center justify-between">
-              <span className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-slate-500" /> Regional Risk Summary</span>
+            <h3 className="text-sm font-bold text-charcoal uppercase mb-4 flex items-center justify-between">
+              <span className="flex items-center gap-2"><BarChart3 className="w-4 h-4 text-mutedText" /> Regional Risk Summary</span>
             </h3>
-            <div className="space-y-4 text-sm text-slate-600">
+            <div className="space-y-4 text-sm text-secondaryText">
               <p>
                 The risk summary aggregates portfolio-level financial exceptions into a geographical risk percentage for regional monitoring.
               </p>
               
-              <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-                <span className="font-bold text-slate-700 block mb-3 text-xs uppercase tracking-wider">
+              <div className="bg-white p-4 rounded-lg border border-brandBorder">
+                <span className="font-bold text-charcoal block mb-3 text-xs uppercase tracking-wider">
                   Current Status:
                 </span>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-600">Constituencies Reviewed</span>
-                    <span className="font-bold text-slate-900">{constituencyData.length}</span>
+                    <span className="text-secondaryText">Constituencies Reviewed</span>
+                    <span className="font-bold text-charcoal">{constituencyData.length}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-600">High Risk Regions</span>
+                    <span className="text-secondaryText">High Risk Regions</span>
                     <span className="font-bold text-orange-600">{highRiskCount}</span>
                   </div>
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-600">Most Common Issue</span>
+                    <span className="text-secondaryText">Most Common Issue</span>
                     <span className="font-bold text-red-600">Cost Deviations</span>
                   </div>
                 </div>
@@ -175,16 +175,16 @@ export function Districts() {
             </div>
           </div>
           
-          <div className="mt-6 pt-5 border-t border-slate-200">
-            <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Recommended Action</h4>
+          <div className="mt-6 pt-5 border-t border-brandBorder">
+            <h4 className="text-[10px] font-bold text-mutedText uppercase tracking-widest mb-3">Recommended Action</h4>
             {highRiskCount > 0 ? (
               <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-800">
                 <strong className="block mb-2 text-rose-700 uppercase text-xs tracking-wider">Audit Required:</strong> 
                 Please schedule manual verification for the {highRiskCount} constituencies currently marked as High or Critical risk.
               </div>
             ) : (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-sm text-emerald-800">
-                <strong className="block mb-2 text-emerald-700 uppercase text-xs tracking-wider">Status Normal:</strong> 
+              <div className="bg-palegreen border border-brandBorder rounded-lg p-4 text-sm text-forest-dark">
+                <strong className="block mb-2 text-forest-deep uppercase text-xs tracking-wider">Status Normal:</strong> 
                 No immediate escalation required. Continue routine monitoring.
               </div>
             )}
@@ -192,13 +192,13 @@ export function Districts() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-slate-200 bg-slate-50">
-          <h3 className="font-bold text-slate-900">Constituency Analytics Register</h3>
+      <div className="bg-white rounded-lg border border-brandBorder shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-brandBorder bg-white">
+          <h3 className="font-bold text-charcoal">Constituency Analytics Register</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-slate-500 border-b border-slate-200">
+            <thead className="bg-white text-mutedText border-b border-brandBorder">
               <tr>
                 <th className="px-6 py-3 font-semibold">Constituency</th>
                 <th className="px-6 py-3 font-semibold">State</th>
@@ -209,23 +209,23 @@ export function Districts() {
                 <th className="px-6 py-3 font-semibold">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-neutral-100">
               {constituencyData.map((c, i) => (
                 <React.Fragment key={i}>
-                  <tr className={`transition-colors ${selectedConstituency === c.name ? 'bg-blue-50/50' : 'hover:bg-slate-50'}`}>
-                    <td className="px-6 py-4 font-semibold text-slate-900">{c.name}</td>
-                    <td className="px-6 py-4 text-slate-600">{c.state}</td>
+                  <tr className={`transition-colors ${selectedConstituency === c.name ? 'bg-palegreen/50' : 'hover:bg-white'}`}>
+                    <td className="px-6 py-4 font-semibold text-charcoal">{c.name}</td>
+                    <td className="px-6 py-4 text-secondaryText">{c.state}</td>
                     <td className="px-6 py-4">{c.memberCount}</td>
                     <td className="px-6 py-4 font-medium">₹{(c.totalAllocated / 10000000).toFixed(2)} Cr</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="w-16 h-2 bg-palegreen rounded-full overflow-hidden">
                           <div 
-                            className={`h-full ${c.avgRisk >= 50 ? 'bg-red-500' : c.avgRisk >= 25 ? 'bg-orange-400' : 'bg-green-500'}`}
+                            className={`h-full ${c.avgRisk >= 50 ? 'bg-risk-critical' : c.avgRisk >= 25 ? 'bg-risk-medium' : 'bg-risk-low'}`}
                             style={{ width: `${c.avgRisk}%` }}
                           />
                         </div>
-                        <span className="font-bold text-slate-700">{c.avgRisk.toFixed(1)}</span>
+                        <span className="font-bold text-charcoal">{c.avgRisk.toFixed(1)}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -233,7 +233,7 @@ export function Districts() {
                         c.riskLevel === 'CRITICAL' ? 'bg-red-100 text-red-700 border border-red-200' :
                         c.riskLevel === 'HIGH' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
                         c.riskLevel === 'MODERATE' ? 'bg-yellow-100 text-yellow-700 border border-yellow-200' :
-                        'bg-green-100 text-green-700 border border-green-200'
+                        'bg-risk-low/20 text-risk-low border border-green-200'
                       }`}>
                         {c.riskLevel}
                       </span>
@@ -243,8 +243,8 @@ export function Districts() {
                         onClick={() => setSelectedConstituency(selectedConstituency === c.name ? null : c.name)}
                         className={`font-semibold px-3 py-1.5 rounded-md text-sm transition-colors ${
                           selectedConstituency === c.name 
-                            ? 'bg-slate-800 text-white hover:bg-slate-700' 
-                            : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
+                            ? 'bg-forest-deep text-white hover:bg-forest-deep' 
+                            : 'bg-palegreen text-forest-deep hover:bg-palegreen border border-brandBorder'
                         }`}
                       >
                         {selectedConstituency === c.name ? 'Hide Analysis' : 'Deep Dive'}
@@ -255,15 +255,15 @@ export function Districts() {
                   {/* INLINE EXPLAINABILITY DEEP DIVE */}
                   {selectedConstituency === c.name && (
                     <tr>
-                      <td colSpan={7} className="p-0 border-b border-slate-200">
-                        <div className="bg-slate-900 text-white p-6 shadow-inner border-y border-slate-700">
-                          <div className="flex items-center justify-between mb-4 border-b border-slate-700 pb-3">
+                      <td colSpan={7} className="p-0 border-b border-brandBorder">
+                        <div className="bg-forest-deep text-white p-6 shadow-inner border-y border-forest-primary">
+                          <div className="flex items-center justify-between mb-4 border-b border-forest-primary pb-3">
                             <div>
                               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                <BarChart3 className="w-5 h-5 text-blue-400" />
+                                <BarChart3 className="w-5 h-5 text-forest-secondary" />
                                 {c.name} Constituency — Diagnostic Deep Dive
                               </h3>
-                              <p className="text-slate-400 text-sm mt-1">Isolating the portfolio-level risk signals that mathematically generated the {c.avgRisk.toFixed(1)} aggregated risk score.</p>
+                              <p className="text-mutedText text-sm mt-1">Isolating the portfolio-level risk signals that mathematically generated the {c.avgRisk.toFixed(1)} aggregated risk score.</p>
                             </div>
                           </div>
                           
@@ -271,35 +271,35 @@ export function Districts() {
                             {/* Member Portfolios */}
                             <div className="xl:col-span-2 grid gap-4">
                               {c.members.map((m, idx) => (
-                                <div key={idx} className="bg-slate-800/80 p-4 rounded-lg border border-slate-700">
-                                  <div className="flex justify-between items-center mb-3 border-b border-slate-700/50 pb-2">
+                                <div key={idx} className="bg-forest-deep/80 p-4 rounded-lg border border-forest-primary">
+                                  <div className="flex justify-between items-center mb-3 border-b border-forest-primary/50 pb-2">
                                     <div>
-                                      <span className="font-bold text-base text-blue-100 block">{m.name}</span>
-                                      <span className="text-[10px] text-slate-400 font-mono tracking-widest">{m.id}</span>
+                                      <span className="font-bold text-base text-forest-secondary block">{m.name}</span>
+                                      <span className="text-[10px] text-mutedText font-mono tracking-widest">{m.id}</span>
                                     </div>
                                     <span className={`px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest ${
-                                      m.risk?.risk_level === 'CRITICAL' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
+                                      m.risk?.risk_level === 'CRITICAL' ? 'bg-risk-critical/20 text-red-300 border border-red-500/30' :
                                       m.risk?.risk_level === 'HIGH' ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30' :
-                                      'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                      'bg-forest-primary/10 text-forest-secondary border border-forest-primary/20'
                                     }`}>
                                       Portfolio Risk: {m.risk?.overall_risk_score.toFixed(1) || '0.0'}
                                     </span>
                                   </div>
                                   
-                                  <div className="text-sm text-slate-300 space-y-2">
+                                  <div className="text-sm text-mutedText space-y-2">
                                     {m.risk?.signals.map((s: string, sIdx: number) => (
-                                      <div key={sIdx} className="flex items-start gap-2 bg-slate-900/50 p-2.5 rounded border border-slate-700/50">
+                                      <div key={sIdx} className="flex items-start gap-2 bg-forest-deep/50 p-2.5 rounded border border-forest-primary/50">
                                         <AlertTriangle className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
                                         <span>
                                           <strong className="text-white block text-xs tracking-wide uppercase mb-1">Algorithmic Anomaly Flag:</strong>
-                                          <span className="text-slate-400">{s}. This portfolio structurally deviates from localized spending norms.</span>
+                                          <span className="text-mutedText">{s}. This portfolio structurally deviates from localized spending norms.</span>
                                         </span>
                                       </div>
                                     ))}
                                     {(!m.risk?.signals || m.risk.signals.length === 0) && (
-                                      <div className="flex items-center gap-2 text-emerald-400 bg-emerald-900/20 p-2.5 rounded border border-emerald-900/50">
+                                      <div className="flex items-center gap-2 text-forest-secondary bg-forest-deep/20 p-2.5 rounded border border-forest-primary/50">
                                         <CheckCircle className="w-4 h-4" />
-                                        <span><strong className="text-emerald-300">Clean Portfolio:</strong> No statistical or duplicate anomalies detected by the ML engine.</span>
+                                        <span><strong className="text-forest-secondary">Clean Portfolio:</strong> No statistical or duplicate anomalies detected by the ML engine.</span>
                                       </div>
                                     )}
                                   </div>
@@ -312,9 +312,9 @@ export function Districts() {
                               <div className={`rounded-lg p-5 border ${
                                 c.riskLevel === 'CRITICAL' ? 'bg-red-950/40 border-red-900/50' :
                                 c.riskLevel === 'HIGH' ? 'bg-orange-950/40 border-orange-900/50' :
-                                'bg-blue-900/20 border-blue-800/50'
+                                'bg-forest-dark/20 border-forest-primary/50'
                               }`}>
-                                <h4 className="text-[10px] uppercase tracking-widest font-bold mb-4 flex items-center gap-2 text-slate-300 border-b border-slate-700/50 pb-2">
+                                <h4 className="text-[10px] uppercase tracking-widest font-bold mb-4 flex items-center gap-2 text-mutedText border-b border-forest-primary/50 pb-2">
                                   <CheckCircle className="w-4 h-4" />
                                   Action Directive
                                 </h4>
@@ -337,14 +337,14 @@ export function Districts() {
                                 ) : (
                                   <div className="space-y-4">
                                     <div>
-                                      <span className="text-xs text-emerald-400 font-bold uppercase tracking-wider block mb-1">Required Action</span>
-                                      <p className="text-sm text-emerald-100">
+                                      <span className="text-xs text-forest-secondary font-bold uppercase tracking-wider block mb-1">Required Action</span>
+                                      <p className="text-sm text-forest-secondary">
                                         No immediate escalation required. Continue standard quarterly execution reporting and normal fund disbursement.
                                       </p>
                                     </div>
                                     <div>
-                                      <span className="text-xs text-blue-400 font-bold uppercase tracking-wider block mb-1">Diagnostic Reason</span>
-                                      <p className="text-sm text-blue-100/80">
+                                      <span className="text-xs text-forest-secondary font-bold uppercase tracking-wider block mb-1">Diagnostic Reason</span>
+                                      <p className="text-sm text-forest-secondary/80">
                                         The aggregated constituency score of {c.avgRisk.toFixed(1)} remains within acceptable statistical control limits, indicating normal portfolio operations.
                                       </p>
                                     </div>

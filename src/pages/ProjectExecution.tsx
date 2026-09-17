@@ -36,7 +36,7 @@ export function ProjectExecution() {
     }).sort((a, b) => b.delayProbability - a.delayProbability);
   }, [members, mlRisk]);
 
-  if (membersLoading || mlLoading) return <div className="p-8 text-slate-500">Loading execution analytics...</div>;
+  if (membersLoading || mlLoading) return <div className="p-8 text-mutedText">Loading execution analytics...</div>;
 
   const filteredData = filterState === 'ALL' ? executionData : executionData.filter(d => d.state === filterState);
   
@@ -47,16 +47,16 @@ export function ProjectExecution() {
     <div className="space-y-6">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Project Completion & Execution Telemetry</h1>
-          <p className="text-slate-500 mt-1 text-sm">
+          <h1 className="text-2xl font-bold text-charcoal">Project Completion & Execution Telemetry</h1>
+          <p className="text-mutedText mt-1 text-sm">
             Predictive physical progress evaluation and bottleneck diagnosis across parliamentary portfolios.
           </p>
         </div>
         
         <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-slate-400" />
+          <Filter className="w-4 h-4 text-mutedText" />
           <select 
-            className="text-sm border-slate-300 rounded-md bg-white py-1.5 pl-3 pr-8 shadow-sm focus:ring-blue-500"
+            className="text-sm border-brandBorder rounded-md bg-white py-1.5 pl-3 pr-8 shadow-sm focus:ring-forest-primary"
             value={filterState}
             onChange={e => setFilterState(e.target.value)}
           >
@@ -68,17 +68,17 @@ export function ProjectExecution() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm relative">
-          <div className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Total Monitored Portfolios</div>
-          <div className="text-3xl font-bold text-slate-900">
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm relative">
+          <div className="text-sm font-bold text-mutedText uppercase tracking-wider mb-2">Total Monitored Portfolios</div>
+          <div className="text-3xl font-bold text-charcoal">
             {filteredData.length}
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg border border-emerald-200 shadow-sm relative">
-           <div className="absolute top-3 right-3 text-emerald-500"><CheckCircle className="w-5 h-5"/></div>
-          <div className="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-2">On Track</div>
-          <div className="text-3xl font-bold text-slate-900">
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm relative">
+           <div className="absolute top-3 right-3 text-forest-primary"><CheckCircle className="w-5 h-5"/></div>
+          <div className="text-sm font-bold text-forest-primary uppercase tracking-wider mb-2">On Track</div>
+          <div className="text-3xl font-bold text-charcoal">
             {filteredData.filter(d => d.status === 'ON_TRACK').length}
           </div>
         </div>
@@ -86,7 +86,7 @@ export function ProjectExecution() {
         <div className="bg-white p-6 rounded-lg border border-amber-200 shadow-sm relative">
            <div className="absolute top-3 right-3 text-amber-500"><Clock className="w-5 h-5"/></div>
           <div className="text-sm font-bold text-amber-600 uppercase tracking-wider mb-2">At Risk (Delay)</div>
-          <div className="text-3xl font-bold text-slate-900">
+          <div className="text-3xl font-bold text-charcoal">
             {filteredData.filter(d => d.status === 'AT_RISK').length}
           </div>
         </div>
@@ -103,10 +103,10 @@ export function ProjectExecution() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* ML Prediction Chart */}
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm lg:col-span-2 flex flex-col">
-          <h3 className="text-sm font-bold text-slate-900 uppercase mb-4 flex items-center justify-between">
-            <span className="flex items-center gap-2"><BrainCircuit className="w-4 h-4 text-blue-600" /> Supervised Delay Prediction Model</span>
-            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] rounded-sm font-bold">OPERATIONAL</span>
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm lg:col-span-2 flex flex-col">
+          <h3 className="text-sm font-bold text-charcoal uppercase mb-4 flex items-center justify-between">
+            <span className="flex items-center gap-2"><BrainCircuit className="w-4 h-4 text-forest-primary" /> Supervised Delay Prediction Model</span>
+            <span className="px-2 py-0.5 bg-palegreen text-forest-deep text-[10px] rounded-sm font-bold">OPERATIONAL</span>
           </h3>
           <div className="flex-1 min-h-[250px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -119,10 +119,10 @@ export function ProjectExecution() {
                   labelFormatter={(label) => `Portfolio ID: ${label}`}
                   cursor={{ fill: '#f1f5f9' }}
                 />
-                <ReferenceLine y={75} stroke="#ef4444" strokeDasharray="3 3" label={{ position: 'top', value: 'Critical Threshold', fill: '#ef4444', fontSize: 10 }} />
+                <ReferenceLine y={75} stroke="#7A3838" strokeDasharray="3 3" label={{ position: 'top', value: 'Critical Threshold', fill: '#7A3838', fontSize: 10 }} />
                 <Bar dataKey="delayProbability" radius={[4, 4, 0, 0]} maxBarSize={50}>
                   {topDelayed.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.delayProbability > 75 ? '#ef4444' : entry.delayProbability > 50 ? '#f59e0b' : '#10b981'} />
+                    <Cell key={`cell-${index}`} fill={entry.delayProbability > 75 ? '#7A3838' : entry.delayProbability > 50 ? '#f59e0b' : '#10b981'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -131,23 +131,23 @@ export function ProjectExecution() {
         </div>
         
         {/* AI Explainability */}
-        <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm flex flex-col">
-          <h3 className="text-sm font-bold uppercase mb-4 flex items-center gap-2 text-slate-900">
-            <TrendingUp className="w-4 h-4 text-slate-500" /> Delay Prediction Methodology
+        <div className="bg-white p-6 rounded-lg border border-brandBorder shadow-sm flex flex-col">
+          <h3 className="text-sm font-bold uppercase mb-4 flex items-center gap-2 text-charcoal">
+            <TrendingUp className="w-4 h-4 text-mutedText" /> Delay Prediction Methodology
           </h3>
-          <div className="space-y-4 text-sm text-slate-600 flex-1">
+          <div className="space-y-4 text-sm text-secondaryText flex-1">
             <p>
               The delay prediction system evaluates financial and structural parameters to estimate the probability of execution stalls (0-100%).
             </p>
-            <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-              <span className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Evaluation Criteria</span>
+            <div className="bg-white p-4 rounded-lg border border-brandBorder">
+              <span className="block text-xs font-bold uppercase tracking-wider text-charcoal mb-2">Evaluation Criteria</span>
               <ul className="list-disc pl-4 space-y-2 text-xs">
                 <li><strong>Financial Risk:</strong> Analysis of outlier spending patterns.</li>
                 <li><strong>Portfolio Similarity:</strong> Comparison against typical execution baselines.</li>
                 <li><strong>Outcome:</strong> Translates these systemic risks into actionable delay probabilities.</li>
               </ul>
             </div>
-            <p className="text-xs text-slate-500 mt-auto border-t border-slate-200 pt-4">
+            <p className="text-xs text-mutedText mt-auto border-t border-brandBorder pt-4">
               * Note: High delay probabilities indicate environments where projects historically face structural bottlenecks, requiring preemptive action.
             </p>
           </div>
@@ -155,13 +155,13 @@ export function ProjectExecution() {
       </div>
 
       {/* Execution Register */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-          <h3 className="font-bold text-slate-900">Portfolio Execution Registry</h3>
+      <div className="bg-white rounded-lg border border-brandBorder shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-brandBorder bg-white flex justify-between items-center">
+          <h3 className="font-bold text-charcoal">Portfolio Execution Registry</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-slate-500 border-b border-slate-200">
+            <thead className="bg-white text-mutedText border-b border-brandBorder">
               <tr>
                 <th className="px-6 py-3 font-semibold">Member</th>
                 <th className="px-6 py-3 font-semibold">State</th>
@@ -171,34 +171,34 @@ export function ProjectExecution() {
                 <th className="px-6 py-3 font-semibold">Predictive Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-neutral-100">
               {filteredData.slice(0, 20).map((row, i) => (
-                <tr key={i} className="hover:bg-slate-50">
+                <tr key={i} className="hover:bg-white">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-slate-900">{row.name}</div>
-                    <div className="text-xs text-slate-500">{row.id}</div>
+                    <div className="font-medium text-charcoal">{row.name}</div>
+                    <div className="text-xs text-mutedText">{row.id}</div>
                   </td>
-                  <td className="px-6 py-4 text-slate-600">{row.state}</td>
-                  <td className="px-6 py-4 text-slate-900 font-medium text-right">{row.estimatedTotalWorks}</td>
+                  <td className="px-6 py-4 text-secondaryText">{row.state}</td>
+                  <td className="px-6 py-4 text-charcoal font-medium text-right">{row.estimatedTotalWorks}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div className="w-16 h-2 bg-palegreen rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-blue-500"
+                          className="h-full bg-forest-primary"
                           style={{ width: `${row.estimatedCompletionRate}%` }}
                         />
                       </div>
-                      <span className="text-xs font-bold text-slate-700">{row.estimatedCompletionRate.toFixed(0)}%</span>
+                      <span className="text-xs font-bold text-charcoal">{row.estimatedCompletionRate.toFixed(0)}%</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-center font-bold text-slate-900">{row.delayProbability.toFixed(1)}%</div>
+                    <div className="text-center font-bold text-charcoal">{row.delayProbability.toFixed(1)}%</div>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
                       row.status === 'SEVERELY_DELAYED' ? 'bg-red-100 text-red-700 border border-red-200' :
                       row.status === 'AT_RISK' ? 'bg-amber-100 text-amber-700 border border-amber-200' :
-                      'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                      'bg-palegreen text-forest-deep border border-brandBorder'
                     }`}>
                       {row.status.replace('_', ' ')}
                     </span>
