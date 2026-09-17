@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useMembers, useMLData } from '../hooks/useData';
 import { useRole } from '../contexts/RoleContext';
-import { Database, CheckCircle, AlertTriangle, AlertCircle, BarChart3 } from 'lucide-react';
+import { CheckCircle, AlertTriangle, AlertCircle, BarChart3 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 export function Districts() {

@@ -120,7 +120,7 @@ export function Alerts() {
                   </div>
                   <h3 className="text-lg font-bold text-slate-900">{alert.type} detected in Member Allocation</h3>
                   <div className="text-sm text-slate-500 mt-1">
-                    Member: <strong className="text-slate-700">{alert.member.name}</strong> ({alert.member.house}) • State: {alert.member.state}
+                    Member: <strong className="text-slate-700">{alert.member?.name || 'Unknown'}</strong> ({alert.member?.house || 'Unknown'}) • State: {alert.member?.state || 'Unknown'}
                   </div>
                 </div>
                 {alert.status === 'OPEN' && (
@@ -137,13 +137,15 @@ export function Alerts() {
               <div className="bg-slate-50 border border-slate-200 rounded-md p-4">
                 <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Evidence & Recommended Action</h4>
                 <div className="text-sm text-slate-700 mb-3 space-y-2">
-                  {alert.risk.factors.map((f: any, i: number) => (
+                  {alert.risk.factors ? alert.risk.factors.map((f: any, i: number) => (
                     <div key={i}>• {f.description} ({f.evidence})</div>
+                  )) : alert.risk.signals?.map((s: string, i: number) => (
+                    <div key={i}>• {s}</div>
                   ))}
                 </div>
                 <div className="text-sm font-semibold text-slate-900 flex items-center bg-white p-3 rounded border border-slate-200">
                   <ArrowRight className="w-4 h-4 mr-2 text-slate-400" />
-                  {alert.risk.recommendedAction}
+                  {alert.risk.recommendedAction || "Investigate the generated signals and evaluate for compliance."}
                 </div>
               </div>
             </div>

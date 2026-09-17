@@ -7,7 +7,7 @@ import os
 MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'model_artifacts', 'tfidf_vectorizer.joblib')
 
 class DuplicateDetector:
-    def __init__(self, threshold=0.85):
+    def __init__(self, threshold=0.75):
         self.threshold = threshold
         self.vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
         self.is_trained = False
@@ -25,7 +25,7 @@ class DuplicateDetector:
     def train(self, df: pd.DataFrame):
         texts = df.apply(self._build_text, axis=1)
         self.corpus_vectors = self.vectorizer.fit_transform(texts)
-        self.corpus_indices = df.index.values
+        self.corpus_ids = df['id'].values
         self.is_trained = True
         
         # Save vectorizer
@@ -44,18 +44,23 @@ class DuplicateDetector:
         sim_matrix = cosine_similarity(query_vectors, self.corpus_vectors)
         
         results = []
+        query_ids = df['id'].values
+        
         for i, row_sims in enumerate(sim_matrix):
             # Find the max similarity excluding itself
-            # We set self similarity to 0
-            row_sims[i] = 0.0
+            # Find index of self in corpus
+            self_corpus_indices = [idx for idx, cid in enumerate(self.corpus_ids) if cid == query_ids[i]]
+            for idx in self_corpus_indices:
+                row_sims[idx] = 0.0
+                
             max_sim = row_sims.max()
             most_sim_idx = row_sims.argmax()
             
             is_dup = max_sim >= self.threshold
             results.append({
                 'max_similarity_score': max_sim * 100, # 0-100 scale
-                'is_potential_duplicate': is_dup,
-                'similar_to_index': self.corpus_indices[most_sim_idx] if is_dup else None
+                'is_potential_duplicate': bool(is_dup),
+                'similar_to_index': self.corpus_ids[most_sim_idx] if is_dup else None
             })
             
         return pd.DataFrame(results, index=df.index)

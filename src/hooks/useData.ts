@@ -119,7 +119,7 @@ export function useDataQuality() {
 
 export function useRiskAnalysis() {
   const { house } = useHouse();
-  const [riskData, setRiskData] = useState<any>(null); // We will type this properly
+  const [riskData, setRiskData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -127,16 +127,25 @@ export function useRiskAnalysis() {
     setLoading(true);
     Promise.all([
       import('../services/api').then(m => m.getMembersByHouse(house)),
-      import('../services/riskEngine').then(m => m.generateRiskAnalysis)
-    ]).then(([members, generateRiskAnalysis]) => {
+      import('../services/api').then(m => m.getMLRiskAnalysis(house))
+    ]).then(([members, mlRisks]) => {
       if (mounted) {
-        const results = generateRiskAnalysis(members);
+        // Map backend snake_case to frontend expected camelCase
+        const mappedResults = mlRisks.map((r: any) => ({
+          ...r,
+          memberId: r.member_id,
+          riskScore: r.overall_risk_score,
+          riskLevel: r.risk_level,
+          primarySignal: r.primary_signal,
+        }));
         setRiskData({
           members,
-          results: Array.from(results.values())
+          results: mappedResults
         });
         setLoading(false);
       }
+    }).catch(() => {
+      if (mounted) setLoading(false);
     });
     return () => { mounted = false; };
   }, [house]);

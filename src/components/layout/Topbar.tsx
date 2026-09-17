@@ -42,10 +42,10 @@ export function Topbar() {
            (m.id && m.id.toLowerCase().includes(search.toLowerCase()));
   }).slice(0, 5) : [];
 
-  const handleSelectResult = (_id: string) => {
+  const handleSelectResult = (name: string) => {
     setSearch('');
     setIsFocused(false);
-    navigate('/mps'); 
+    navigate(`/dashboard/mps?search=${encodeURIComponent(name)}`); 
   };
 
   return (
@@ -73,7 +73,7 @@ export function Topbar() {
                   {searchResults.map(result => (
                     <div 
                       key={result.id} 
-                      onClick={() => handleSelectResult(result.id)}
+                      onClick={() => handleSelectResult(result.name)}
                       className="px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-100 last:border-0"
                     >
                       <div className="font-semibold text-sm">{result.name}</div>

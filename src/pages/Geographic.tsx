@@ -45,7 +45,10 @@ export function Geographic() {
     if (!analytics || !riskData) return analytics || [];
     
     return analytics.map(a => {
-      const stateRisks = riskData.results.filter((r: any) => r.state === a.state);
+      const stateRisks = riskData.results.filter((r: any) => {
+        const member = riskData.members.find((m: any) => m.id === r.memberId);
+        return member?.state === a.state;
+      });
       const riskSignals = stateRisks.length;
       return {
         ...a,

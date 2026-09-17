@@ -1,4 +1,4 @@
-import type { RoleSelection } from '../../contexts/RoleContext';
+import type { RoleSelection } from '../contexts/RoleContext';
 
 /**
  * RBAC Permissions Map

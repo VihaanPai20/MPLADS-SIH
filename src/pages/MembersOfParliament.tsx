@@ -1,11 +1,29 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import { useMembers } from '../hooks/useData';
 
 export function MembersOfParliament() {
-  const [search, setSearch] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('search') || '');
   const [localHouseFilter, setLocalHouseFilter] = useState<string>('All');
   
+  useEffect(() => {
+    const q = searchParams.get('search');
+    if (q !== null) {
+      setSearch(q);
+    }
+  }, [searchParams]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    if (e.target.value) {
+      setSearchParams({ search: e.target.value });
+    } else {
+      setSearchParams({});
+    }
+  };
+
   // Use global house filter via API abstraction hook
   const { members, loading, error } = useMembers();
 
@@ -40,7 +58,7 @@ export function MembersOfParliament() {
             type="text" 
             placeholder="Search by name or state..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
             className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
