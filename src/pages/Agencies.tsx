@@ -84,20 +84,20 @@ export function Agencies() {
         </div>
         
         {/* DATA COVERAGE CARD */}
-        <div className="bg-forest-deep text-mutedText rounded-lg p-3 text-xs shadow-md border border-forest-primary w-full md:w-64">
+        <div className="bg-forest-deep text-white rounded-lg p-3 text-xs shadow-md border border-forest-primary w-full md:w-64">
           <div className="flex items-center justify-between border-b border-forest-primary pb-2 mb-2">
-            <span className="font-bold tracking-wider text-mutedText">DATA COVERAGE</span>
-            <Database className="w-3 h-3 text-forest-secondary" />
+            <span className="font-bold tracking-wider text-white">DATA COVERAGE</span>
+            <Database className="w-3 h-3 text-white" />
           </div>
           <div className="flex justify-between">
             <span>State Nodal Authority</span>
-            <span className="text-forest-secondary font-bold">100%</span>
+            <span className="text-white font-bold">100%</span>
           </div>
           <div className="flex justify-between opacity-50">
             <span>Granular Agency</span>
             <span className="text-red-400 font-bold">0%</span>
           </div>
-          <div className="text-[10px] text-mutedText mt-1 italic leading-tight">
+          <div className="text-[10px] text-white mt-1 italic leading-tight">
             Operating at the State Authority level due to missing granular agency mappings in the dataset.
           </div>
         </div>
@@ -222,10 +222,10 @@ export function Agencies() {
                           <div className="flex justify-between items-start mb-6 border-b border-forest-primary pb-4">
                             <div>
                               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                <Building2 className="w-5 h-5 text-forest-secondary" />
+                                <Building2 className="w-5 h-5 text-white" />
                                 {c.name} - Authority Aggregation Details
                               </h3>
-                              <p className="text-mutedText text-sm mt-1">Reviewing underlying portfolio risk signals managed by this State Nodal Authority.</p>
+                              <p className="text-white text-sm mt-1">Reviewing underlying portfolio risk signals managed by this State Nodal Authority.</p>
                             </div>
                             <button onClick={() => setSelectedAuthority(null)} className="text-mutedText hover:text-white bg-forest-deep hover:bg-brandBorder rounded-full w-8 h-8 flex items-center justify-center transition-colors">✕</button>
                           </div>
@@ -234,19 +234,19 @@ export function Agencies() {
                             {c.members.map((m, idx) => (
                               <div key={idx} className="bg-forest-deep/40 p-4 rounded-lg border border-forest-primary shadow-inner">
                                 <div className="flex justify-between items-center mb-3">
-                                  <span className="font-bold text-forest-secondary truncate pr-2">{m.name} <span className="text-mutedText text-xs font-normal">({m.house})</span></span>
+                                  <span className="font-bold text-white truncate pr-2">{m.name} <span className="text-white/80 text-xs font-normal">({m.house})</span></span>
                                   <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 ${
                                     m.risk?.risk_level === 'CRITICAL' ? 'bg-risk-critical/20 text-red-300 border border-red-500/30' :
                                     m.risk?.risk_level === 'HIGH' ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30' :
-                                    'bg-brandBorder text-mutedText'
+                                    'bg-brandBorder text-white'
                                   }`}>
                                     Score: {m.risk?.overall_risk_score.toFixed(1) || 'N/A'}
                                   </span>
                                 </div>
                                 
                                 <div>
-                                  <span className="text-[10px] uppercase tracking-widest text-mutedText font-bold mb-1 block">Contributing Factors:</span>
-                                  <div className="text-xs text-mutedText space-y-2">
+                                  <span className="text-[10px] uppercase tracking-widest text-white font-bold mb-1 block">Contributing Factors:</span>
+                                  <div className="text-xs text-white space-y-2">
                                     {m.risk?.signals.map((s: string, sIdx: number) => (
                                       <div key={sIdx} className="flex items-start gap-1.5 bg-forest-deep/50 p-2 rounded border border-forest-primary/50">
                                         <AlertTriangle className="w-3 h-3 text-orange-400 shrink-0 mt-0.5" />
@@ -256,7 +256,7 @@ export function Agencies() {
                                       </div>
                                     ))}
                                     {(!m.risk?.signals || m.risk.signals.length === 0) && (
-                                      <div className="flex items-center gap-1.5 text-forest-secondary bg-forest-deep/20 p-2 rounded">
+                                      <div className="flex items-center gap-1.5 text-white bg-forest-deep/20 p-2 rounded">
                                         <CheckCircle className="w-3 h-3" />
                                         No statistical anomalies detected.
                                       </div>
@@ -268,11 +268,11 @@ export function Agencies() {
                           </div>
                           
                           <div className="bg-forest-dark/30 border border-forest-primary/50 rounded-lg p-4">
-                            <h4 className="text-sm uppercase tracking-widest text-forest-secondary font-bold mb-1 flex items-center gap-2">
+                            <h4 className="text-sm uppercase tracking-widest text-white font-bold mb-1 flex items-center gap-2">
                               <CheckCircle className="w-4 h-4" />
                               Recommended Action
                             </h4>
-                            <p className="text-sm text-forest-secondary">
+                            <p className="text-sm text-white">
                               {c.avgRisk >= 50 
                                 ? "Initiate a compliance audit with this State Nodal Authority. The elevated aggregated risk indicates a systemic issue in how portfolios within this jurisdiction are being structurally allocated or executed."
                                 : "No systemic audit required. The authority is managing portfolios within acceptable predictive risk thresholds."}

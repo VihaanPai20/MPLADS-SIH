@@ -263,7 +263,7 @@ export function Districts() {
                                 <BarChart3 className="w-5 h-5 text-forest-secondary" />
                                 {c.name} Constituency — Diagnostic Deep Dive
                               </h3>
-                              <p className="text-mutedText text-sm mt-1">Isolating the portfolio-level risk signals that mathematically generated the {c.avgRisk.toFixed(1)} aggregated risk score.</p>
+                              <p className="text-white text-sm mt-1">Isolating the portfolio-level risk signals that mathematically generated the {c.avgRisk.toFixed(1)} aggregated risk score.</p>
                             </div>
                           </div>
                           
@@ -274,8 +274,8 @@ export function Districts() {
                                 <div key={idx} className="bg-forest-deep/80 p-4 rounded-lg border border-forest-primary">
                                   <div className="flex justify-between items-center mb-3 border-b border-forest-primary/50 pb-2">
                                     <div>
-                                      <span className="font-bold text-base text-forest-secondary block">{m.name}</span>
-                                      <span className="text-[10px] text-mutedText font-mono tracking-widest">{m.id}</span>
+                                      <span className="font-bold text-base text-white block">{m.name}</span>
+                                      <span className="text-[10px] text-white font-mono tracking-widest">{m.id}</span>
                                     </div>
                                     <span className={`px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-widest ${
                                       m.risk?.risk_level === 'CRITICAL' ? 'bg-risk-critical/20 text-red-300 border border-red-500/30' :
@@ -292,7 +292,7 @@ export function Districts() {
                                         <AlertTriangle className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
                                         <span>
                                           <strong className="text-white block text-xs tracking-wide uppercase mb-1">Algorithmic Anomaly Flag:</strong>
-                                          <span className="text-mutedText">{s}. This portfolio structurally deviates from localized spending norms.</span>
+                                          <span className="text-white">{s}. This portfolio structurally deviates from localized spending norms.</span>
                                         </span>
                                       </div>
                                     ))}
@@ -314,7 +314,7 @@ export function Districts() {
                                 c.riskLevel === 'HIGH' ? 'bg-orange-950/40 border-orange-900/50' :
                                 'bg-forest-dark/20 border-forest-primary/50'
                               }`}>
-                                <h4 className="text-[10px] uppercase tracking-widest font-bold mb-4 flex items-center gap-2 text-mutedText border-b border-forest-primary/50 pb-2">
+                                <h4 className="text-[10px] uppercase tracking-widest font-bold mb-4 flex items-center gap-2 text-white border-b border-forest-primary/50 pb-2">
                                   <CheckCircle className="w-4 h-4" />
                                   Action Directive
                                 </h4>
