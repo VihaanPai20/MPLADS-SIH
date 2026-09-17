@@ -6,8 +6,10 @@ from app.api import members, ml, auth
 from app.database import engine
 from app.models import user
 
-# Create tables
-user.Base.metadata.create_all(bind=engine)
+from app.init_db import init_database
+
+# Initialize database tables and seed demo accounts / datasets
+init_database()
 
 load_dotenv()
 
@@ -18,11 +20,13 @@ app = FastAPI(
 )
 
 # CORS configuration
-origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+raw_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000,https://mplads-sih.onrender.com").split(",")
+origins = [o.strip() for o in raw_origins if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r"^https://.*\.onrender\.com$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
